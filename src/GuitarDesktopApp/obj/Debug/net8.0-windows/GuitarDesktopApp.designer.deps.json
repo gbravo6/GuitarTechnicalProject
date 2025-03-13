@@ -1,0 +1,28 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "32feet.NET/3.5.0": {
+        "runtime": {
+          "lib/net/InTheHand.Net.Personal.dll": {
+            "assemblyVersion": "3.5.605.0",
+            "fileVersion": "3.5.605.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "32feet.NET/3.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Edc4otytrDm/zSpssF61LsZzkxZeaCEAo4cOUO1foS6OhUUCsEPRRTmwEG+jYC2zU1sYFrpZnjJU6F3a6NjSgA==",
+      "path": "32feet.net/3.5.0",
+      "hashPath": "32feet.net.3.5.0.nupkg.sha512"
+    }
+  }
+}

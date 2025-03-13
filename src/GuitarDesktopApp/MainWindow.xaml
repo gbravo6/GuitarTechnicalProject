@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Button x:Name="UI_Scan_Btn" Content="Scan Devices" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="48" Width="111" Click="UI_Scan_Btn_Click"/>
+        <Label x:Name="UI_Home_Lbl" Content="Main Menu" Margin="0,74,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <ListBox x:Name="UI_Devices_List" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,63,611,217"/>
+        <Button x:Name="ToPage1_Btn" Content="To Page 1" HorizontalAlignment="Left" Margin="360,140,0,0" VerticalAlignment="Top" Click="ToPage1_Btn_Click"/>
 
     </Grid>
 </Window>
