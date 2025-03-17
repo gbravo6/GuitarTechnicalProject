@@ -14,6 +14,7 @@
  #include "hardware/timer.h"
  #include "hardware/adc.h"
  #include "hardware/gpio.h"
+ #include "pico/multicore.h"
  
  //****************************************LED  Stuff****************************************//
  /**
@@ -86,6 +87,7 @@
      uint8_t b = ((colour & 0x0000FF)) * brightness;
      return g<<24 | r<<16 | b<<8 ;//| 0xFF000000;
  }
+
  void clear_leds(PIO pio, uint sm) {
      for (int i = 0; i < sizeof(led_buffer); i++) {
          led_buffer[i] = 0;
@@ -191,17 +193,53 @@
      printf("GPIO %d interrupt\n", gpio);
  }
  //***************************************Other Stuff***************************************//
- 
+// todo get free sm
+PIO pio;
+uint sm;
+uint offset;
+
+void core1_entry(){
+    while (true) {
+    int detected_channel = -1;  
+    uint16_t max_value = 0;  
+
+    for (int channel = 0; channel < 16; ++channel) {
+        select_mux_channel(channel);
+        uint16_t value = get_adc_value();  
+
+        if (value > PRESSED_THRESHOLD && value > max_value) {
+            detected_channel = channel;
+            max_value = value;
+        }
+    }
+
+    if (detected_channel != -1 && detected_channel != last_pressed_channel) {
+        printf("Channel %d PRESSED! Value: %d\n", detected_channel, max_value);
+        if(detected_channel != led_sequence.first){
+            printf("WRONG CHANNEL\n");
+        }
+        else{
+            printf("CORRECT CHANNEL\n");
+            set_sequence(&led_sequence);
+            set_leds_in_sequence(led_sequence, pio, sm);
+        }
+        last_pressed_channel = detected_channel;
+    }
+
+    if (detected_channel == -1 && last_pressed_channel != -1) {
+        last_pressed_channel = -1;
+    }
+
+    sleep_ms(10);
+}
+}
  int main() {
      stdio_init_all();
      while(!stdio_usb_connected){
          sleep_ms(100);
      } 
      //***************************************LED Init***************************************//
-     // todo get free sm
-     PIO pio;
-     uint sm;
-     uint offset;
+
  
      pio_remove_program_and_unclaim_sm(&ws2812_program, pio, sm, offset);
      // This will find a free pio and state machine for our program and load it for us
@@ -241,8 +279,8 @@
      set_leds_in_sequence(led_sequence, pio, sm);
      //***************************************ADC Init***************************************//
      //***************************************Integration***************************************//
-     gpio_set_irq_enabled_with_callback(18, GPIO_IRQ_EDGE_RISE, true, &gpio_callback);
- 
+     
+     multicore_launch_core1(core1_entry);
      // while (true) {
      //     int detected_channel = -1;  
      //     uint16_t max_value = 0;  
