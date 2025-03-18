@@ -1,5 +1,7 @@
-﻿using System;
+﻿using InTheHand.Net.Sockets;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +22,10 @@ namespace GuitarDesktopApp
     /// </summary>
     public partial class Page1 : Page
     {
+        //properties
+        //fields 
+        BluetoothClient btc = null;
+        BluetoothDeviceInfo[] devices = null;
         public Page1()
         {
             InitializeComponent();
@@ -27,7 +33,34 @@ namespace GuitarDesktopApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Content = new MainWindow();
+            MainWindow home = new MainWindow();
+            NavigationService.Navigate(home);
+
+        }
+        private void UI_Scan_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            UI_Devices_List.Items.Clear();
+            //scan for devices
+            try
+            {
+
+                btc = new BluetoothClient();
+                devices = btc.DiscoverDevices();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine($"Scanning Devices Failed: {ex.Message}");
+                UI_Devices_List.Items.Add("Scanning Devices Failed.");
+            }
+            foreach (BluetoothDeviceInfo device in devices)
+            {
+                UI_Devices_List.Items.Add($"Device Name: {device.DeviceName} | Address: {device.DeviceAddress}");
+            }
+        }
+
+        private void UI_Chord_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Chords());
         }
     }
 }

@@ -19,38 +19,16 @@ namespace GuitarDesktopApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        //fields 
-        BluetoothClient btc = null;
-        BluetoothDeviceInfo[] devices = null;
+
         public MainWindow()
         {
             InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
         }
 
-        private void UI_Scan_Btn_Click(object sender, RoutedEventArgs e)
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            UI_Devices_List.Items.Clear();
-            //scan for devices
-            try
-            {
-
-                btc = new BluetoothClient();
-                devices = btc.DiscoverDevices();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine($"Scanning Devices Failed: {ex.Message}");
-                UI_Devices_List.Items.Add("Scanning Devices Failed.");
-            }
-            foreach (BluetoothDeviceInfo device in devices)
-            {
-                UI_Devices_List.Items.Add($"Device Name: {device.DeviceName} | Address: {device.DeviceAddress}");
-            }
-        }
-
-        private void ToPage1_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            Content = new Page1();
+            mainFrame.Content = new Page1();
         }
     }
 }

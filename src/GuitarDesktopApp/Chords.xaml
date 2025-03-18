@@ -1,0 +1,18 @@
+﻿<Page x:Class="GuitarDesktopApp.Chords"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GuitarDesktopApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Chords">
+
+
+    <Grid Background="Beige">
+        <Label Name="UI_Chords_Lbl" Content="Chords" HorizontalAlignment="Center" FontSize="48" VerticalAlignment="Top" FontWeight="Bold"/>
+        <Button Name="UI_Home_Btn" Content="HOME" Width="50" Height="25" Click="UI_Home_Btn_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,15,0,0" />
+        <Button Name="UI_HowTo_Btn" Content="How to Read a Chord Diagram" Width="200" Height="50" Margin="590,10,10,390" Click="UI_HowTo_Btn_Click" />
+
+    </Grid>
+</Page>

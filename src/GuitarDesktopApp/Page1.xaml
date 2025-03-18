@@ -9,7 +9,11 @@
       Title="Page1">
 
     <Grid Background="Beige">
-        <TextBlock Text="PAGE 1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"></TextBlock>
-        <Button Content="Main Menu" Margin="338,273,338,123" Click="Button_Click" />
+        <Button x:Name="UI_Scan_Btn" Content="Scan Devices" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="48" Width="111" Click="UI_Scan_Btn_Click"/>
+        <Label x:Name="UI_Home_Lbl" Content="Main Menu" Margin="0,0,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <ListBox x:Name="UI_Devices_List" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,63,611,217"/>
+        <Button x:Name="UI_Chord_Btn" Content="Learn Chords" HorizontalAlignment="Center" Margin="0,100,0,0" VerticalAlignment="Top" FontSize="24" Width="200" Click="UI_Chord_Btn_Click"/>
+        <Button x:Name="UI_Scales_Btn" Content="Learn Scales" HorizontalAlignment="Center" Margin="0,150,0,0" VerticalAlignment="Top" FontSize="24" Width="200"/>
+
     </Grid>
 </Page>

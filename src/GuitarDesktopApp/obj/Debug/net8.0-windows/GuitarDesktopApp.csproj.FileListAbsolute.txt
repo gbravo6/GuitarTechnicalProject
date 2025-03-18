@@ -24,3 +24,5 @@ C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\ob
 C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\ref\GuitarDesktopApp.dll
 C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Page1.g.cs
 C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Page1.baml
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Chords.g.cs
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Chords.baml
