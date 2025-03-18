@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "F4NE5ntdgzI=",
+  "dgSpecHash": "cLEG6ivgnCw=",
   "success": true,
-  "projectFilePath": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
+  "projectFilePath": "C:\\Users\\gbravo6\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\gBrav\\.nuget\\packages\\32feet.net\\3.5.0\\32feet.net.3.5.0.nupkg.sha512"
+    "C:\\Users\\gbravo6\\.nuget\\packages\\32feet.net\\3.5.0\\32feet.net.3.5.0.nupkg.sha512"
   ],
   "logs": [
     {
