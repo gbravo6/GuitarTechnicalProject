@@ -32,7 +32,7 @@ namespace GuitarDesktopApp
 
         private void UI_HowTo_Btn_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationService.Navigate(new HowToReadChord());
         }
     }
 }

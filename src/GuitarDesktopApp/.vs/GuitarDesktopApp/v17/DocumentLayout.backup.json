@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\gbrav\\onedrive\\documents\\guitartechnicalproject\\src\\guitardesktopapp\\chords.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:chords.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\gbrav\\onedrive\\documents\\guitartechnicalproject\\src\\guitardesktopapp\\howtoreadchord.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:howtoreadchord.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\gbrav\\onedrive\\documents\\guitartechnicalproject\\src\\guitardesktopapp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\gbrav\\onedrive\\documents\\guitartechnicalproject\\src\\guitardesktopapp\\chords.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
       "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:chords.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\gbrav\\onedrive\\documents\\guitartechnicalproject\\src\\guitardesktopapp\\page1.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:page1.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\gbrav\\onedrive\\documents\\guitartechnicalproject\\src\\guitardesktopapp\\chords.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:chords.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\gbrav\\onedrive\\documents\\guitartechnicalproject\\src\\guitardesktopapp\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\gbrav\\onedrive\\documents\\guitartechnicalproject\\src\\guitardesktopapp\\howtoreadchord.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:howtoreadchord.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\gbrav\\onedrive\\documents\\guitartechnicalproject\\src\\guitardesktopapp\\page1.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:page1.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\gbrav\\onedrive\\documents\\guitartechnicalproject\\src\\guitardesktopapp\\page1.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -25,10 +33,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\gbrav\\onedrive\\documents\\guitartechnicalproject\\src\\guitardesktopapp\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\gbrav\\onedrive\\documents\\guitartechnicalproject\\src\\guitardesktopapp\\viewmodels\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:viewmodels\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,24 +42,36 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "HowToReadChord.xaml",
+              "DocumentMoniker": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\HowToReadChord.xaml",
+              "RelativeDocumentMoniker": "HowToReadChord.xaml",
+              "ToolTip": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\HowToReadChord.xaml",
+              "RelativeToolTip": "HowToReadChord.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-03-18T18:42:51.521Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Chords.xaml.cs",
               "DocumentMoniker": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Chords.xaml.cs",
               "RelativeDocumentMoniker": "Chords.xaml.cs",
               "ToolTip": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Chords.xaml.cs",
               "RelativeToolTip": "Chords.xaml.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAIwB0AAAA0AAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAACIAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-14T17:23:00.94Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Chords.xaml",
               "DocumentMoniker": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Chords.xaml",
               "RelativeDocumentMoniker": "Chords.xaml",
@@ -67,7 +83,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "MainWindow.xaml",
+              "ToolTip": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\MainWindow.xaml",
+              "RelativeToolTip": "MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-03-13T20:32:40.77Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "HowToReadChord.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\HowToReadChord.xaml.cs",
+              "RelativeDocumentMoniker": "HowToReadChord.xaml.cs",
+              "ToolTip": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\HowToReadChord.xaml.cs",
+              "RelativeToolTip": "HowToReadChord.xaml.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAUwB0AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-18T18:43:01.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Page1.xaml.cs",
               "DocumentMoniker": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Page1.xaml.cs",
               "RelativeDocumentMoniker": "Page1.xaml.cs",
@@ -75,12 +116,11 @@
               "RelativeToolTip": "Page1.xaml.cs",
               "ViewState": "AgIAAC4AAAAAAAAAAAAcwD4AAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T22:31:49.887Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-13T22:31:49.887Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Page1.xaml",
               "DocumentMoniker": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Page1.xaml",
               "RelativeDocumentMoniker": "Page1.xaml",
@@ -91,18 +131,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "MainWindow.xaml",
-              "ToolTip": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\MainWindow.xaml",
-              "RelativeToolTip": "MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-03-13T20:32:40.77Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
@@ -111,18 +140,6 @@
               "ViewState": "AgIAAAkAAAAAAAAAAAArwB4AAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-13T20:32:30.547Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ViewModelBase.cs",
-              "DocumentMoniker": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\ViewModels\\ViewModelBase.cs",
-              "RelativeDocumentMoniker": "ViewModels\\ViewModelBase.cs",
-              "ToolTip": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\ViewModels\\ViewModelBase.cs",
-              "RelativeToolTip": "ViewModels\\ViewModelBase.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-13T22:39:32.241Z"
             }
           ]
         }
