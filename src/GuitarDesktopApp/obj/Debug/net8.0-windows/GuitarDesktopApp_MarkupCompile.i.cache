@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\
+C:\Users\gbravo6\Documents\GitHub\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\
 GuitarDesktopApp
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\App.xaml
-4-1818082224
+C:\Users\gbravo6\Documents\GitHub\GuitarTechnicalProject\src\GuitarDesktopApp\App.xaml
+5-295759802
 
-9-68428736
-1991168248556
-Chords.xaml;HowToRead.xaml;MainWindow.xaml;Page1.xaml;
+101864259866
+1992080120296
+Chords.xaml;HowToRead.xaml;HowToReadChord.xaml;MainWindow.xaml;Page1.xaml;
 
-False
+True
 

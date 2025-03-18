@@ -12,7 +12,7 @@
     <Grid Background="Beige">
         <Label Name="UI_Chords_Lbl" Content="Chords" HorizontalAlignment="Center" FontSize="48" VerticalAlignment="Top" FontWeight="Bold"/>
         <Button Name="UI_Home_Btn" Content="HOME" Width="50" Height="25" Click="UI_Home_Btn_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,15,0,0" />
-        <Button Name="UI_HowTo_Btn" Content="How to Read a Chord Diagram" Width="200" Height="50" Margin="590,10,10,390" Click="UI_HowTo_Btn_Click" />
+        <Button Name="UI_HowTo_Btn" Content="How to Read a Chord Diagram" Width="200" Height="50"  Click="UI_HowTo_Btn_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,15,0" />
 
     </Grid>
 </Page>

@@ -1,0 +1,50 @@
+﻿<Page x:Class="GuitarDesktopApp.HowToReadChord"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GuitarDesktopApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="HowToReadChord">
+
+    <Grid Background="Beige">
+        <!-- title text-->
+        <Label Content="How To Read a Chord" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="32"/>
+        <Label Content="The A-Minor Chord" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" Margin="0,50,0,0"/>
+        <!-- Guitar drawing-->
+        <!--Horizontal lines-->
+        <Line X1="275" Y1="200" X2="529" Y2="200" Stroke="Black" StrokeThickness="20" />
+        <Label Content="1" Width="40" Height="40" FontSize="24"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="252,220,0,0" />
+        <Line X1="275" Y1="270" X2="529" Y2="270" Stroke="Black" StrokeThickness="4" />
+        <Label Content="2" Width="40" Height="40" FontSize="24"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="252,280,0,0" />
+        <Line X1="275" Y1="330" X2="529" Y2="330" Stroke="Black" StrokeThickness="4" />
+        <Label Content="3" Width="40" Height="40" FontSize="24"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="252,340,0,0" />
+        <Line X1="275" Y1="390" X2="529" Y2="390" Stroke="Black" StrokeThickness="4" />
+        <Label Content="4" Width="40" Height="40" FontSize="24"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="252,400,0,0" />
+        <Line X1="275" Y1="450" X2="529" Y2="450" Stroke="Black" StrokeThickness="4" />
+        <!--Vertical -->
+        <Line X1="277" Y1="200" X2="277" Y2="800" Stroke="Black" StrokeThickness="4" />
+        <Line X1="327" Y1="200" X2="327" Y2="800" Stroke="Black" StrokeThickness="4" />
+        <Line X1="377" Y1="200" X2="377" Y2="800" Stroke="Black" StrokeThickness="4" />
+        <Line X1="427" Y1="200" X2="427" Y2="800" Stroke="Black" StrokeThickness="4" />
+        <Line X1="477" Y1="200" X2="477" Y2="800" Stroke="Black" StrokeThickness="4" />
+        <Line X1="527" Y1="200" X2="527" Y2="800" Stroke="Black" StrokeThickness="4" />
+        <!--back button-->
+        <Button Name ="UI_Back_Btn" Content="Back" Width="75" Height="25"  Click="UI_Back_Btn_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,15,0,0"/>
+        <!--String names-->
+        <Label Content="E" FontWeight="Bold" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="265,139,0,0"/>
+        <Label Content="A" FontWeight="Bold" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="312,139,0,0"/>
+        <Label Content="D" FontWeight="Bold" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="362,139,0,0"/>
+        <Label Content="G" FontWeight="Bold" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="412,139,0,0"/>
+        <Label Content="B" FontWeight="Bold" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="465,139,0,0"/>
+        <Label Content="E" FontWeight="Bold" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="512,139,0,0"/>
+        <!--fingerings-->
+        <Ellipse Width="40" Height="40" Fill="White" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="457,220,0,0"  />
+        <Label Content="1" Width="40" Height="40" FontSize="24" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="457,220,0,0" />
+        <Ellipse Width="40" Height="40" Fill="White" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="407,280,0,0"  />
+        <Label Content="3" Width="40" Height="40" FontSize="24" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="407,280,0,0" />
+        <Ellipse Width="40" Height="40" Fill="White" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="357,280,0,0"  />
+        <Label Content="2" Width="40" Height="40" FontSize="24" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="357,280,0,0" />
+    </Grid>
+</Page>
