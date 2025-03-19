@@ -144,8 +144,8 @@
  #define MUX3_S3_PIN 12
  
  #define SIG_PIN1 28
- #define SIG_PIN2 14
- #define SIG_PIN3 15  
+ #define SIG_PIN2 27
+ #define SIG_PIN3 26
 
 
  #define PRESSED_THRESHOLD 750  
@@ -263,6 +263,7 @@ void core1_entry(){
 }
  int main() {
      stdio_init_all();
+     printf("starting\n");
      while(!stdio_usb_connected){
          sleep_ms(100);
      } 
@@ -323,39 +324,12 @@ void core1_entry(){
      //***************************************ADC Init***************************************//
      //***************************************Integration***************************************//
      multicore_launch_core1(core1_entry);
-     // while (true) {
-     //     int detected_channel = -1;  
-     //     uint16_t max_value = 0;  
- 
-     //     for (int channel = 0; channel < 16; ++channel) {
-     //         select_mux_channel(channel);
-     //         uint16_t value = get_adc_value();  
- 
-     //         if (value > PRESSED_THRESHOLD && value > max_value) {
-     //             detected_channel = channel;
-     //             max_value = value;
-     //         }
-     //     }
- 
-     //     if (detected_channel != -1 && detected_channel != last_pressed_channel) {
-     //         printf("Channel %d PRESSED! Value: %d\n", detected_channel, max_value);
-     //         if(detected_channel != led_sequence.first){
-     //             printf("WRONG CHANNEL\n");
-     //         }
-     //         else{
-     //             printf("CORRECT CHANNEL\n");
-     //             set_sequence(&led_sequence);
-     //             set_leds_in_sequence(led_sequence, pio, sm);
-     //         }
-     //         last_pressed_channel = detected_channel;
-     //     }
- 
-     //     if (detected_channel == -1 && last_pressed_channel != -1) {
-     //         last_pressed_channel = -1;
-     //     }
- 
-     //     sleep_ms(10);
-     // }
+     while(true){
+        if(multicore_fifo_rvalid){
+            uint32_t msg = multicore_fifo_pop_blocking();
+            // printf("Chanell %d pressed",msg);
+        }
+    }
      // This will free resources and unload our program
      pio_remove_program_and_unclaim_sm(&ws2812_program, pio, sm, offset);
  }

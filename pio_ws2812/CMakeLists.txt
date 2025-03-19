@@ -44,7 +44,7 @@ pico_generate_pio_header(pio_ws2812 ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio OUTPUT_
 
 target_sources(pio_ws2812 PRIVATE ws2812.c)
 
-target_link_libraries(pio_ws2812 PRIVATE pico_stdlib hardware_pio pico_stdio_usb)
+target_link_libraries(pio_ws2812 PRIVATE pico_stdlib hardware_pio pico_stdio_usb pico_multicore)
 pico_add_extra_outputs(pio_ws2812)
 
 # turn on usb
