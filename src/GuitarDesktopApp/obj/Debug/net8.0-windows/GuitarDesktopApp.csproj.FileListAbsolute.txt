@@ -62,3 +62,33 @@ C:\Users\gbravo6\Documents\GitHub\GuitarTechnicalProject\src\GuitarDesktopApp\ob
 C:\Users\gbravo6\Documents\GitHub\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.pdb
 C:\Users\gbravo6\Documents\GitHub\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.genruntimeconfig.cache
 C:\Users\gbravo6\Documents\GitHub\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\ref\GuitarDesktopApp.dll
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\GuitarDesktopApp.exe
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\GuitarDesktopApp.deps.json
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\GuitarDesktopApp.runtimeconfig.json
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\GuitarDesktopApp.dll
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\GuitarDesktopApp.pdb
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\InTheHand.Net.Personal.dll
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.csproj.AssemblyReference.cache
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp_MarkupCompile.cache
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp_MarkupCompile.lref
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.g.resources
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.AssemblyInfoInputs.cache
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.AssemblyInfo.cs
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.csproj.CoreCompileInputs.cache
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.sourcelink.json
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDe.E8F864DE.Up2Date
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.dll
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\refint\GuitarDesktopApp.dll
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.pdb
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.genruntimeconfig.cache
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\ref\GuitarDesktopApp.dll
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\Chords.g.cs
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\HowToReadChord.g.cs
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\Page1.g.cs
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\Chords.baml
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\HowToReadChord.baml
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\Page1.baml

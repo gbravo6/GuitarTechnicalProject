@@ -9,7 +9,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ChordImages\a-chord.jpg" />
+    <None Remove="ChordImages\am-chord-diagram-823x1024.png" />
+    <None Remove="ChordImages\c-chord-diagram.png" />
+    <None Remove="ChordImages\d-chord.png" />
+    <None Remove="ChordImages\dm-chord.jpg" />
+    <None Remove="ChordImages\e-chord.jpg" />
+    <None Remove="ChordImages\em-chord-diagram-823x1024.png" />
+    <None Remove="ChordImages\g-chord-diagram.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="32feet.NET" Version="3.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="ChordImages\a-chord.jpg" />
+    <Resource Include="ChordImages\am-chord-diagram-823x1024.png" />
+    <Resource Include="ChordImages\c-chord-diagram.png" />
+    <Resource Include="ChordImages\d-chord.png" />
+    <Resource Include="ChordImages\dm-chord.jpg" />
+    <Resource Include="ChordImages\e-chord.jpg" />
+    <Resource Include="ChordImages\em-chord-diagram-823x1024.png" />
+    <Resource Include="ChordImages\g-chord-diagram.png" />
   </ItemGroup>
 
 </Project>
