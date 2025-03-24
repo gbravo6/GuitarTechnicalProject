@@ -277,7 +277,6 @@ void process_mux_signal(int mux_index) {
         uint16_t value = get_adc_value(current_mux);
 
         if (value > PRESSED_THRESHOLD) {
-            printf("Value: %d");
             detected_channels[num_pressed++] = channel;
         }
     }
@@ -289,7 +288,6 @@ void process_mux_signal(int mux_index) {
         if (last_num_pressed == 0) {
             last_press_time = now;
         }
-        printf("NumPressed : %d, Now: %d",num_pressed,now);
         // Wait until user has had time to place fingers
         if (now - last_press_time >= CHORD_HOLD_TIME_MS) {
             printf("MUX %d Detected Chord: ", mux_index + 1);
@@ -300,6 +298,7 @@ void process_mux_signal(int mux_index) {
             printf("\n");
             last_num_pressed = num_pressed; 
         }
+        printf("Time : %d vs HoldTime: %d",(now-last_press_time),CHORD_HOLD_TIME_MS);
     } 
     // If no channels are pressed, only reset after full release
     else if (last_num_pressed > 0) {
