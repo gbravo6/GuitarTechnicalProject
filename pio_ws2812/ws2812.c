@@ -288,8 +288,10 @@ void process_mux_signal(int mux_index) {
         if (last_num_pressed == 0) {
             last_press_time = now;
         }
+        printf("\nNow: %d",now);
+        printf("\nLast Press: %d",last_press_time);
         // Wait until user has had time to place fingers
-        if (now - last_press_time >= CHORD_HOLD_TIME_MS) {
+        if ((now - last_press_time) >= CHORD_HOLD_TIME_MS) {
             printf("MUX %d Detected Chord: ", mux_index + 1);
             for (int i = 0; i < num_pressed; i++) {
                 printf("%d ", detected_channels[i]);
