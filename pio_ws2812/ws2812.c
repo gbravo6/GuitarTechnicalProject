@@ -256,42 +256,44 @@ PIO pio;
 uint sm;
 uint offset;
 
-void process_mux_signal(int mux_index){
-    //Proces the signal from the triggered mux
-    printf("Processing signal from MUX %d...\n", mux_index+1);
-    
+void process_mux_signal(int mux_index) {
+    printf("Processing signal from MUX %d...\n", mux_index + 1);
+
     MuxConfig* current_mux = &mux_configs[mux_index];
     adc_select_input(current_mux->adc_channel);
 
-    int detected_channel = -1;
-    uint16_t max_value = 0;
+    static int last_detected_channels[16] = {0}; // Stores last pressed channels
+    static int last_num_pressed = 0;  // Number of last detected channels
 
-    for(int channel = 0; channel<16;channel++){
-        select_mux_channel(current_mux,channel);
+    int detected_channels[16] = {0};  // Stores currently pressed channels
+    int num_pressed = 0;
+
+    // Scan all 16 channels
+    for (int channel = 0; channel < 16; channel++) {
+        select_mux_channel(current_mux, channel);
         uint16_t value = get_adc_value(current_mux);
 
-        if(value>PRESSED_THRESHOLD && value > max_value){
-            detected_channel = channel;
-            max_value =value;
+        if (value > PRESSED_THRESHOLD) {
+            detected_channels[num_pressed++] = channel;
         }
-    }
-    if (detected_channel != -1 && detected_channel != last_pressed_channel) {
-        printf("MUX %d Channel %d PRESSED! Value: %d\n", active_mux + 1, detected_channel, max_value);
-            if(detected_channel != led_sequence.first){
-            printf("WRONG CHANNEL\n");
-        }
-        else{
-            printf("CORRECT CHANNEL\n");
-            set_sequence(&led_sequence);
-            set_leds_in_sequence(led_sequence, pio, sm);
-        }
-        last_pressed_channel = detected_channel;
     }
 
-    if (detected_channel == -1 && last_pressed_channel != -1) {
-        last_pressed_channel = -1;
+    // If there are active presses, update the last detected chord
+    if (num_pressed > 0) {
+        printf("MUX %d Pressed Channels: ", mux_index + 1);
+        for (int i = 0; i < num_pressed; i++) {
+            printf("%d ", detected_channels[i]);
+            last_detected_channels[i] = detected_channels[i]; // Store pressed state
+        }
+        printf("\n");
+        last_num_pressed = num_pressed; // Update last known presses
+    } 
+    // If no channels are pressed, reset only when all fingers are released
+    else if (last_num_pressed > 0) {
+        printf("Chord released. Resetting detection.\n");
+        last_num_pressed = 0;
     }
- }
+}
 // void core1_entry(){
 // }
  int main() {
