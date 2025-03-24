@@ -277,6 +277,7 @@ void process_mux_signal(int mux_index) {
         uint16_t value = get_adc_value(current_mux);
 
         if (value > PRESSED_THRESHOLD) {
+            printf("Value: %d");
             detected_channels[num_pressed++] = channel;
         }
     }
@@ -288,7 +289,7 @@ void process_mux_signal(int mux_index) {
         if (last_num_pressed == 0) {
             last_press_time = now;
         }
-
+        printf("NumPressed : %d, Now: %d",num_pressed,now);
         // Wait until user has had time to place fingers
         if (now - last_press_time >= CHORD_HOLD_TIME_MS) {
             printf("MUX %d Detected Chord: ", mux_index + 1);
@@ -367,17 +368,17 @@ void process_mux_signal(int mux_index) {
      printf("LED INDEX: %d\n", led_index);
      // set_led_brightness(pio, sm, purple, led_index,0.4);
      set_leds_in_sequence(led_sequence, pio, sm);
+     int i =0;
      //***************************************ADC Init***************************************//
      //***************************************Integration***************************************//
      //multicore_launch_core1(core1_entry);
      while(true){
-        int i =0;
         // if(multicore_fifo_rvalid){
         //     uint32_t msg = multicore_fifo_pop_blocking();
         //     // printf("Chanell %d pressed",msg);
         // }
         if(active_mux != -1){
-            printf("%d",i++);
+            printf("\n%d",i++);
             process_mux_signal(active_mux);
             active_mux = -1;
             printf("\nProcessed Signal, Active Mus: %d",active_mux);
