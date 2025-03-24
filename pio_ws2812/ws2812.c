@@ -367,7 +367,6 @@ void process_mux_signal(int mux_index) {
      printf("LED INDEX: %d\n", led_index);
      // set_led_brightness(pio, sm, purple, led_index,0.4);
      set_leds_in_sequence(led_sequence, pio, sm);
-     int i =0;
      //***************************************ADC Init***************************************//
      //***************************************Integration***************************************//
      //multicore_launch_core1(core1_entry);
@@ -377,10 +376,8 @@ void process_mux_signal(int mux_index) {
         //     // printf("Chanell %d pressed",msg);
         // }
         if(active_mux != -1){
-            printf("\n%d",i++);
             process_mux_signal(active_mux);
             active_mux = -1;
-            printf("\nProcessed Signal, Active Mus: %d",active_mux);
         }
         sleep_ms(1);
     }
