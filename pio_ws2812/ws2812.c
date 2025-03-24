@@ -256,19 +256,23 @@ PIO pio;
 uint sm;
 uint offset;
 
+#define MAX_CHANNELS 16  // Max channels per MUX
+#define CHORD_HOLD_TIME_MS 100  // Time to allow finger placement
+
 void process_mux_signal(int mux_index) {
+    static uint32_t last_press_time = 0;  
+    static int last_detected_channels[MAX_CHANNELS] = {0}; 
+    static int last_num_pressed = 0;  
+
+    printf("Processing signal from MUX %d...\n", mux_index + 1);
 
     MuxConfig* current_mux = &mux_configs[mux_index];
     adc_select_input(current_mux->adc_channel);
 
-    static int last_detected_channels[16] = {0}; // Stores last pressed channels
-    static int last_num_pressed = 0;  // Number of last detected channels
-
-    int detected_channels[16] = {0};  // Stores currently pressed channels
+    int detected_channels[MAX_CHANNELS] = {0};  
     int num_pressed = 0;
 
-    // Scan all 16 channels
-    for (int channel = 0; channel < 16; channel++) {
+    for (int channel = 0; channel < MAX_CHANNELS; channel++) {
         select_mux_channel(current_mux, channel);
         uint16_t value = get_adc_value(current_mux);
 
@@ -277,23 +281,33 @@ void process_mux_signal(int mux_index) {
         }
     }
 
-    // If there are active presses, update the last detected chord
+    uint32_t now = to_ms_since_boot(get_absolute_time());
+
     if (num_pressed > 0) {
-        printf("MUX %d Pressed Channels: ", mux_index + 1);
-        for (int i = 0; i < num_pressed; i++) {
-            printf("%d ", detected_channels[i]);
-            last_detected_channels[i] = detected_channels[i]; // Store pressed state
+        // If this is the first press, start the timer
+        if (last_num_pressed == 0) {
+            last_press_time = now;
         }
-        printf("\n");
-        last_num_pressed = num_pressed; // Update last known presses
+
+        // Wait until user has had time to place fingers
+        if (now - last_press_time >= CHORD_HOLD_TIME_MS) {
+            printf("MUX %d Detected Chord: ", mux_index + 1);
+            for (int i = 0; i < num_pressed; i++) {
+                printf("%d ", detected_channels[i]);
+                last_detected_channels[i] = detected_channels[i]; 
+            }
+            printf("\n");
+            last_num_pressed = num_pressed; 
+        }
     } 
-    // If no channels are pressed, reset only when all fingers are released
+    // If no channels are pressed, only reset after full release
     else if (last_num_pressed > 0) {
         printf("Chord released. Resetting detection.\n");
         last_num_pressed = 0;
+        memset(last_detected_channels, 0, sizeof(last_detected_channels));
     }
-    printf("lastNum: %d, num_press: %d",last_num_pressed,num_pressed);
 }
+
 // void core1_entry(){
 // }
  int main() {
@@ -357,14 +371,16 @@ void process_mux_signal(int mux_index) {
      //***************************************Integration***************************************//
      //multicore_launch_core1(core1_entry);
      while(true){
+        int i =0;
         // if(multicore_fifo_rvalid){
         //     uint32_t msg = multicore_fifo_pop_blocking();
         //     // printf("Chanell %d pressed",msg);
         // }
         if(active_mux != -1){
+            printf("%d",i++);
             process_mux_signal(active_mux);
             active_mux = -1;
-            printf("Processed Signal")
+            printf("\nProcessed Signal");
         }
         sleep_ms(1);
     }
