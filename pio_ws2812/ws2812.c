@@ -211,8 +211,8 @@ void init_gpio_interupts() {
     }
 
     gpio_set_irq_enabled_with_callback(SIG_PIN1, GPIO_IRQ_EDGE_RISE, true, &handle_sig1_interrupt);
-    gpio_set_irq_enabled_with_callback(SIG_PIN2, GPIO_IRQ_EDGE_RISE, true, &handle_sig2_interrupt);
-    gpio_set_irq_enabled_with_callback(SIG_PIN3, GPIO_IRQ_EDGE_RISE, true, &handle_sig3_interrupt);
+    //gpio_set_irq_enabled_with_callback(SIG_PIN2, GPIO_IRQ_EDGE_RISE, true, &handle_sig2_interrupt);
+    //gpio_set_irq_enabled_with_callback(SIG_PIN3, GPIO_IRQ_EDGE_RISE, true, &handle_sig3_interrupt);
 }
  
  //***************************************Sensor Stuff***************************************//
