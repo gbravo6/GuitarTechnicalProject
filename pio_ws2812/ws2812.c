@@ -257,7 +257,6 @@ uint sm;
 uint offset;
 
 void process_mux_signal(int mux_index) {
-    printf("Processing signal from MUX %d...\n", mux_index + 1);
 
     MuxConfig* current_mux = &mux_configs[mux_index];
     adc_select_input(current_mux->adc_channel);
@@ -293,6 +292,7 @@ void process_mux_signal(int mux_index) {
         printf("Chord released. Resetting detection.\n");
         last_num_pressed = 0;
     }
+    printf("lastNum: %d, num_press: %d",last_num_pressed,num_pressed);
 }
 // void core1_entry(){
 // }
@@ -364,6 +364,7 @@ void process_mux_signal(int mux_index) {
         if(active_mux != -1){
             process_mux_signal(active_mux);
             active_mux = -1;
+            printf("Processed Signal")
         }
         sleep_ms(1);
     }
