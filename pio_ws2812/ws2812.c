@@ -380,7 +380,7 @@ void process_mux_signal(int mux_index) {
             printf("%d",i++);
             process_mux_signal(active_mux);
             active_mux = -1;
-            printf("\nProcessed Signal");
+            printf("\nProcessed Signal, Active Mus: %d",active_mux);
         }
         sleep_ms(1);
     }
