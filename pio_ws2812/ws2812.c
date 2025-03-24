@@ -88,11 +88,11 @@
      return g<<24 | r<<16 | b<<8 ;//| 0xFF000000;
  }
 
- void clear_leds(PIO pio, uint sm) {
-     for (int i = 0; i < sizeof(led_buffer); i++) {
-         led_buffer[i] = 0;
-     }
- }
+//  void clear_leds(PIO pio, uint sm) {
+//      for (int i = 0; i < sizeof(led_buffer); i++) {
+//          led_buffer[i] = 0;
+//      }
+//  }
  
  void set_all_leds(PIO pio, uint sm, uint32_t color, int count) {
      for (int i = 0; i < count; i++) {
@@ -150,7 +150,10 @@
 
  #define PRESSED_THRESHOLD 750  
  #define STABLE_READS 5  
- #define MUX_SETTLE_TIME_US 1800  
+ #define MUX_SETTLE_TIME_US 1800
+ 
+ volatile int active_mux = -1;
+
  
 typedef struct{
     uint8_t s0,s1,s2,s3;
@@ -160,31 +163,65 @@ typedef struct{
 
 MuxConfig mux_configs[] ={
     {MUX1_S0_PIN,MUX1_S1_PIN,MUX1_S2_PIN,MUX1_S3_PIN,SIG_PIN1,2},
-    {MUX2_S0_PIN,MUX2_S1_PIN,MUX2_S2_PIN,MUX2_S3_PIN,SIG_PIN2,3},
-    {MUX3_S0_PIN,MUX3_S1_PIN,MUX3_S2_PIN,MUX3_S3_PIN,SIG_PIN3,4}
+    {MUX2_S0_PIN,MUX2_S1_PIN,MUX2_S2_PIN,MUX2_S3_PIN,SIG_PIN2,1},
+    {MUX3_S0_PIN,MUX3_S1_PIN,MUX3_S2_PIN,MUX3_S3_PIN,SIG_PIN3,0}
 };
-
+void handle_sig_interrupt(uint gpio, uint32_t events){
+    if(gpio == SIG_PIN1){
+        active_mux = 0;
+    }else if(gpio == SIG_PIN2){
+        active_mux =1;
+    }else if(gpio == SIG_PIN3){
+        active_mux =2;
+    }
+    printf("Interrupt detected on Mux %d\n",active_mux +1);
+ }
  void select_mux_channel(MuxConfig* mux, uint8_t channel) {
-     gpio_put(mux->s0, (channel >> 0) & 1);
-     gpio_put(mux->s1, (channel >> 1) & 1);
-     gpio_put(mux->s2, (channel >> 2) & 1);
-     gpio_put(mux->s3, (channel >> 3) & 1);
-     sleep_us(MUX_SETTLE_TIME_US);  // Allow MUX to fully switch
- }
+    gpio_put(mux->s0, (channel >> 0) & 1);
+    gpio_put(mux->s1, (channel >> 1) & 1);
+    gpio_put(mux->s2, (channel >> 2) & 1);
+    gpio_put(mux->s3, (channel >> 3) & 1);
+    sleep_us(MUX_SETTLE_TIME_US);  // Allow MUX to fully switch
+}
+
+uint16_t get_adc_value(MuxConfig* mux) {
+   adc_select_input(mux->adc_channel);
+    // Discard first reading (helps eliminate residual values)
+    adc_read();  
+    sleep_us(100);  
+
+    uint16_t sum = 0;
+    for (int i = 0; i < STABLE_READS; i++) {
+        sum += adc_read();
+        sleep_us(50);
+    }
+    return sum / STABLE_READS;  
+}
+void init_gpio_interupts() {
+    //adc_gpio_init(SIG_PIN1);
+    gpio_init(SIG_PIN1);
+    gpio_set_dir(SIG_PIN1, GPIO_IN);
+    gpio_pull_down(SIG_PIN1);
+    //gpio_set_irq_enabled(SIG_PIN1,GPIO_IRQ_EDGE_RISE,true);
+    //gpio_set_irq_callback(SIG_PIN1, &handle_sig_interrupt);
+    gpio_set_irq_enabled_with_callback(SIG_PIN1, GPIO_IRQ_EDGE_RISE, true, &handle_sig_interrupt);
+
+    //adc_gpio_init(SIG_PIN2);
+    gpio_init(SIG_PIN2);
+    gpio_set_dir(SIG_PIN2, GPIO_IN);
+    gpio_pull_down(SIG_PIN2);
+    //gpio_set_irq_enabled(SIG_PIN2,GPIO_IRQ_EDGE_RISE,true);
+    //gpio_set_irq_callback(SIG_PIN2, &handle_sig_interrupt);
+    gpio_set_irq_enabled_with_callback(SIG_PIN2, GPIO_IRQ_EDGE_RISE, true, &handle_sig_interrupt);
+
+    //adc_gpio_init(SIG_PIN3);
+    gpio_init(SIG_PIN3);
+    gpio_set_dir(SIG_PIN3, GPIO_IN);
+    gpio_pull_down(SIG_PIN3);
+    gpio_set_irq_enabled_with_callback(SIG_PIN3, GPIO_IRQ_EDGE_RISE, true, &handle_sig_interrupt);
+}
  
- uint16_t get_adc_value(MuxConfig* mux) {
-    adc_select_input(mux->adc_channel);
-     // Discard first reading (helps eliminate residual values)
-     adc_read();  
-     sleep_us(100);  
  
-     uint16_t sum = 0;
-     for (int i = 0; i < STABLE_READS; i++) {
-         sum += adc_read();
-         sleep_us(50);
-     }
-     return sum / STABLE_READS;  
- }
  //***************************************Sensor Stuff***************************************//
  //***************************************Other Stuff***************************************//
  typedef struct{
@@ -219,48 +256,86 @@ MuxConfig mux_configs[] ={
  void gpio_callback(uint gpio, uint32_t events) {
      printf("GPIO %d interrupt\n", gpio);
  }
+ 
  //***************************************Other Stuff***************************************//
 // todo get free sm
 PIO pio;
 uint sm;
 uint offset;
 
-void core1_entry(){
-    int detected_channel = -1;  
-    uint16_t max_value = 0;  
-    int active_mux = -1;
-    while (true) {
-        for(int mux_index = 0; mux_index < 3;mux_index++){
-            MuxConfig* current_mux = &mux_configs[mux_index];
-            for (int channel = 0; channel < 16; ++channel) {
-                select_mux_channel(current_mux,channel);
-                uint16_t value = get_adc_value(current_mux);  
-        
-                if (value > PRESSED_THRESHOLD && value > max_value) {
-                    detected_channel = channel;
-                    max_value = value;
-                }
-            }
-        }
-        if (detected_channel != -1 && detected_channel != last_pressed_channel) {
-            printf("MUX %d Channel %d PRESSED! Value: %d\n", active_mux + 1, detected_channel, max_value);
-                if(detected_channel != led_sequence.first){
-                printf("WRONG CHANNEL\n");
-            }
-            else{
-                printf("CORRECT CHANNEL\n");
-                set_sequence(&led_sequence);
-                set_leds_in_sequence(led_sequence, pio, sm);
-            }
-            last_pressed_channel = detected_channel;
-        }
+void process_mux_signal(int mux_index){
+    //Proces the signal from the triggered mux
+    printf("Processing signal from MUX %d...\n", mux_index+1);
+    MuxConfig* current_mux = &mux_configs[mux_index];
 
-        if (detected_channel == -1 && last_pressed_channel != -1) {
-            last_pressed_channel = -1;
+    // Select the correct ADC channel for the current MUX
+    adc_select_input(current_mux->adc_channel);
+
+    int detected_channel = -1;
+    uint16_t max_value = 0;
+    for(int channel = 0; channel<16;channel++){
+        select_mux_channel(current_mux,channel);
+        uint16_t value = get_adc_value(current_mux);
+
+        if(value>PRESSED_THRESHOLD && value > max_value){
+            detected_channel = channel;
+            max_value =value;
         }
-        sleep_ms(10);
     }
-}
+    if (detected_channel != -1 && detected_channel != last_pressed_channel) {
+        printf("MUX %d Channel %d PRESSED! Value: %d\n", active_mux + 1, detected_channel, max_value);
+            if(detected_channel != led_sequence.first){
+            printf("WRONG CHANNEL\n");
+        }
+        else{
+            printf("CORRECT CHANNEL\n");
+            set_sequence(&led_sequence);
+            set_leds_in_sequence(led_sequence, pio, sm);
+        }
+        last_pressed_channel = detected_channel;
+    }
+
+    if (detected_channel == -1 && last_pressed_channel != -1) {
+        last_pressed_channel = -1;
+    }
+    sleep_ms(10);
+ }
+// void core1_entry(){
+//     int detected_channel = -1;  
+//     uint16_t max_value = 0;  
+//     int active_mux = -1;
+//     while (true) {
+//         for(int mux_index = 0; mux_index < 3;mux_index++){
+//             MuxConfig* current_mux = &mux_configs[mux_index];
+//             for (int channel = 0; channel < 16; ++channel) {
+//                 select_mux_channel(current_mux,channel);
+//                 uint16_t value = get_adc_value(current_mux);  
+        
+//                 if (value > PRESSED_THRESHOLD && value > max_value) {
+//                     detected_channel = channel;
+//                     max_value = value;
+//                 }
+//             }
+//         }
+//         if (detected_channel != -1 && detected_channel != last_pressed_channel) {
+//             printf("MUX %d Channel %d PRESSED! Value: %d\n", active_mux + 1, detected_channel, max_value);
+//                 if(detected_channel != led_sequence.first){
+//                 printf("WRONG CHANNEL\n");
+//             }
+//             else{
+//                 printf("CORRECT CHANNEL\n");
+//                 set_sequence(&led_sequence);
+//                 set_leds_in_sequence(led_sequence, pio, sm);
+//             }
+//             last_pressed_channel = detected_channel;
+//         }
+
+//         if (detected_channel == -1 && last_pressed_channel != -1) {
+//             last_pressed_channel = -1;
+//         }
+//         sleep_ms(10);
+//     }
+// }
  int main() {
      stdio_init_all();
      printf("starting\n");
@@ -311,10 +386,7 @@ void core1_entry(){
     gpio_init(MUX3_S3_PIN); gpio_set_dir(MUX3_S3_PIN, GPIO_OUT);
 
     adc_init();
-    adc_gpio_init(SIG_PIN1);
-    adc_gpio_init(SIG_PIN2);
-    adc_gpio_init(SIG_PIN3);
-     adc_select_input(2);  
+    init_gpio_interupts();
  
      // int last_pressed_channel = -1;  
      led_index = rand() % ((NUM_PIXELS-1) - 0 + 1) + 0; //random number between 0 and NUM_PIXELS - 1
@@ -323,12 +395,18 @@ void core1_entry(){
      set_leds_in_sequence(led_sequence, pio, sm);
      //***************************************ADC Init***************************************//
      //***************************************Integration***************************************//
-     multicore_launch_core1(core1_entry);
+     //multicore_launch_core1(core1_entry);
      while(true){
-        if(multicore_fifo_rvalid){
-            uint32_t msg = multicore_fifo_pop_blocking();
-            // printf("Chanell %d pressed",msg);
+        // if(multicore_fifo_rvalid){
+        //     uint32_t msg = multicore_fifo_pop_blocking();
+        //     // printf("Chanell %d pressed",msg);
+        // }
+        if(active_mux != -1){
+            printf("Inside active Mux");
+            process_mux_signal(active_mux);
+            active_mux = -1;
         }
+        sleep_ms(10);
     }
      // This will free resources and unload our program
      pio_remove_program_and_unclaim_sm(&ws2812_program, pio, sm, offset);
