@@ -258,11 +258,11 @@ uint offset;
 
 #define MAX_CHANNELS 16  // Max channels per MUX
 #define CHORD_HOLD_TIME_MS 100  // Time to allow finger placement
+static uint32_t last_press_time = 0;  
+static int last_detected_channels[MAX_CHANNELS] = {0}; 
+static int last_num_pressed = 0;  
 
 void process_mux_signal(int mux_index) {
-    static uint32_t last_press_time = 0;  
-    static int last_detected_channels[MAX_CHANNELS] = {0}; 
-    static int last_num_pressed = 0;  
 
     printf("Processing signal from MUX %d...\n", mux_index + 1);
 
