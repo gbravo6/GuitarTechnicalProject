@@ -6,7 +6,7 @@
 
  #include <stdio.h>
  #include <stdlib.h>
- 
+ #include <string.h>
  #include "pico/stdlib.h"
  #include "hardware/pio.h"
  #include "hardware/clocks.h"
