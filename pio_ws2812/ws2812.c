@@ -15,6 +15,7 @@
     #include "hardware/adc.h"
     #include "hardware/gpio.h"
     #include "pico/multicore.h"
+    #include "pico/mutex.h"
  #pragma endregion
  //****************************************LED  Stuff****************************************//
  /**
@@ -183,7 +184,7 @@
 #pragma endregion
 #pragma region PS Consts
 
- #define PRESSED_THRESHOLD 750  
+ #define PRESSED_THRESHOLD 250  
  #define STABLE_READS 5  
  #define MUX_SETTLE_TIME_US 1800
  #define MAX_CHANNELS 16  // Max channels per MUX
@@ -191,7 +192,9 @@
 
  #pragma endregion
  #pragma region PS Variables
-
+    static mutex_t sensor_mutex;
+    static int sensor_buffer[MAX_CHANNELS][2]={{0}};
+    static int buffer_index =0;
     volatile int active_mux = -1;
     int last_pressed_channel = -1;  
     
@@ -210,8 +213,12 @@
         {MUX2_S0_PIN,MUX2_S1_PIN,MUX2_S2_PIN,MUX2_S3_PIN,SIG_PIN2,1},
         {MUX3_S0_PIN,MUX3_S1_PIN,MUX3_S2_PIN,MUX3_S3_PIN,SIG_PIN3,0}
     };
+    
  #pragma endregion
  #pragma region PS Methods
+    void init_mutex(){
+        mutex_init(&sensor_mutex);
+    }
     void init_all_GPIO(){
         gpio_init(MUX1_S0_PIN); gpio_set_dir(MUX1_S0_PIN, GPIO_OUT);
         gpio_init(MUX1_S1_PIN); gpio_set_dir(MUX1_S1_PIN, GPIO_OUT);
@@ -230,18 +237,14 @@
         gpio_init(MUX3_S2_PIN); gpio_set_dir(MUX3_S2_PIN, GPIO_OUT);
         gpio_init(MUX3_S3_PIN); gpio_set_dir(MUX3_S3_PIN, GPIO_OUT);
     }
-
-    void handle_sig1_interrupt(uint gpio, uint32_t events){
+    void handle_sig_interrupt(uint gpio, uint32_t events){
         gpio_acknowledge_irq(gpio, events);
-        active_mux = 0;
-    }
-    void handle_sig2_interrupt(uint gpio, uint32_t events){
-        gpio_acknowledge_irq(gpio, events);
-        active_mux = 1;
-    }
-    void handle_sig3_interrupt(uint gpio, uint32_t events){
-        gpio_acknowledge_irq(gpio, events);
-        active_mux = 2;
+        for(int i = 0; i<3;i++){
+            if(gpio == mux_configs[i].sig_pin){
+                active_mux = i;
+                break;
+            }
+        }
     }
     void select_mux_channel(MuxConfig* mux, uint8_t channel) {
         gpio_put(mux->s0, (channel >> 0) & 1);
@@ -271,14 +274,27 @@
             gpio_init(mux_configs[i].sig_pin);
             gpio_set_dir(mux_configs[i].sig_pin, GPIO_IN);
             gpio_pull_down(mux_configs[i].sig_pin);
+            gpio_set_irq_enabled_with_callback(mux_configs[i].sig_pin, GPIO_IRQ_EDGE_RISE, true, &handle_sig_interrupt);
         }
-
-        gpio_set_irq_enabled_with_callback(SIG_PIN1, GPIO_IRQ_EDGE_RISE, true, &handle_sig1_interrupt);
-        //gpio_set_irq_enabled_with_callback(SIG_PIN2, GPIO_IRQ_EDGE_RISE, true, &handle_sig2_interrupt);
-        //gpio_set_irq_enabled_with_callback(SIG_PIN3, GPIO_IRQ_EDGE_RISE, true, &handle_sig3_interrupt);
     }
-
+    void update_sensor_buffer(int channel){
+        sensor_buffer[buffer_index][0] = channel;
+        sensor_buffer[buffer_index][1] = to_ms_since_boot(get_absolute_time());
+        buffer_index = (buffer_index + 1) % MAX_CHANNELS;
+    }
+    void process_sensor_buffer(){
+        for(int i = 0; i< MAX_CHANNELS; i++){
+            if(sensor_buffer[i][0]!=0){
+                printf("Channel %d was pressed at %d ms\n",sensor_buffer[i][0],sensor_buffer[i][1]);
+                sensor_buffer[i][0]=0;
+            }
+        }
+    }
     void process_mux_signal(int mux_index) {
+        //Debounce and delay
+        sleep_ms(CHORD_HOLD_TIME_MS);
+
+        mutex_enter_blocking(&sensor_mutex);
 
         printf("Processing signal from MUX %d...\n", mux_index + 1);
 
@@ -294,6 +310,7 @@
 
             if (value > PRESSED_THRESHOLD) {
                 detected_channels[num_pressed++] = channel;
+                update_sensor_buffer(channel);
             }
         }
 
@@ -304,12 +321,8 @@
             if (last_num_pressed == 0) {
                 last_press_time = now;
             }
-            printf("\nNow: %d",now);
-            printf("\nLast Press: %d",last_press_time);
-            // Wait until user has had time to place fingers
-            printf("MUX %d Detected Chord: ", mux_index + 1);
             for (int i = 0; i < num_pressed; i++) {
-                printf("%d ", detected_channels[i]);
+                printf("Detected Channels %d ", detected_channels[i]);
                 last_detected_channels[i] = detected_channels[i]; 
             }
             last_num_pressed = num_pressed; 
@@ -320,6 +333,8 @@
             last_num_pressed = 0;
             memset(last_detected_channels, 0, sizeof(last_detected_channels));
         }
+        mutex_exit(&sensor_mutex);
+        process_sensor_buffer();
     }
 #pragma endregion
 
@@ -335,12 +350,8 @@ uint offset;
 
 int main() {
      stdio_init_all();
-     printf("starting\n");
-     while(!stdio_usb_connected){
-         sleep_ms(100);
-     } 
      //***************************************LED Init***************************************//
-     #pragma LED INIT
+     #pragma region LED INIT
         pio_remove_program_and_unclaim_sm(&ws2812_program, pio, sm, offset);
         // This will find a free pio and state machine for our program and load it for us
         // We use pio_claim_free_sm_and_add_program_for_gpio_range (for_gpio_range variant)
@@ -369,12 +380,18 @@ int main() {
      #pragma endregion
  
      //***************************************ADC Init***************************************//
-    #pragma ADC INIT
+    #pragma region ADC INIT
         adc_init();
         init_all_GPIO();
         init_gpio_interupts();
+        init_mutex();
     #pragma endregion
+    
      //***************************************Integration***************************************//
+     printf("starting\n");
+     while(!stdio_usb_connected){
+         sleep_ms(100);
+     } 
      //multicore_launch_core1(core1_entry);
      while(true){
         if(active_mux != -1){
