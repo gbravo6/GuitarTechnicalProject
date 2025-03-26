@@ -291,51 +291,30 @@
         }
     }
     void process_mux_signal(int mux_index) {
-        //Debounce and delay
-        sleep_ms(CHORD_HOLD_TIME_MS);
-
         mutex_enter_blocking(&sensor_mutex);
-
+    
         printf("Processing signal from MUX %d...\n", mux_index + 1);
-
-        MuxConfig* current_mux = &mux_configs[mux_index];
-        adc_select_input(current_mux->adc_channel);
-
-        int detected_channels[MAX_CHANNELS] = {0};  
-        int num_pressed = 0;
-
-        for (int channel = 0; channel < MAX_CHANNELS; channel++) {
-            select_mux_channel(current_mux, channel);
-            uint16_t value = get_adc_value(current_mux);
-
-            if (value > PRESSED_THRESHOLD) {
-                detected_channels[num_pressed++] = channel;
-                update_sensor_buffer(channel);
-            }
-        }
-
-        uint32_t now = to_ms_since_boot(get_absolute_time());
-
+    
+        int num_pressed = last_num_pressed;
+    
         if (num_pressed > 0) {
-            // If this is the first press, start the timer
-            if (last_num_pressed == 0) {
+            uint32_t now = to_ms_since_boot(get_absolute_time());
+            if (last_press_time == 0) {
                 last_press_time = now;
             }
             for (int i = 0; i < num_pressed; i++) {
-                printf("Detected Channels %d ", detected_channels[i]);
-                last_detected_channels[i] = detected_channels[i]; 
+                printf("Detected Channels %d ", last_detected_channels[i]);
             }
-            last_num_pressed = num_pressed; 
-        } 
-        // If no channels are pressed, only reset after full release
-        else if (last_num_pressed > 0) {
+        } else {
             printf("Chord released. Resetting detection.\n");
-            last_num_pressed = 0;
-            memset(last_detected_channels, 0, sizeof(last_detected_channels));
+            last_press_time = 0;
         }
+    
         mutex_exit(&sensor_mutex);
         process_sensor_buffer();
     }
+    
+    
 #pragma endregion
 
  //***************************************Other Stuff***************************************//
@@ -345,8 +324,46 @@ uint sm;
 uint offset;
 
 //Multi Thread func if needed
-// void core1_entry(){
-// }
+void core1_entry() {
+    while (true) {
+        for (int i = 0; i < 3; i++) {
+            MuxConfig* current_mux = &mux_configs[i];
+            adc_select_input(current_mux->adc_channel);
+
+            int detected_channels[MAX_CHANNELS] = {0};  
+            int num_pressed = 0;
+
+            for (int channel = 0; channel < MAX_CHANNELS; channel++) {
+                select_mux_channel(current_mux, channel);
+                uint16_t value = get_adc_value(current_mux);
+
+                if (value > PRESSED_THRESHOLD) {
+                    detected_channels[num_pressed++] = channel;
+                }
+            }
+
+            mutex_enter_blocking(&sensor_mutex);
+            // Update last_detected_channels only if necessary
+            if (num_pressed > 0) {
+                for (int j = 0; j < num_pressed; j++) {
+                    last_detected_channels[j] = detected_channels[j];
+                }
+                last_num_pressed = num_pressed;
+                if (active_mux == -1) {
+                    active_mux = i; // Set active_mux here
+                }
+            } else {
+                if (last_num_pressed > 0) {
+                    last_num_pressed = 0;
+                    memset(last_detected_channels, 0, sizeof(last_detected_channels));
+                    active_mux = -1; // Reset active_mux
+                }
+            }
+            mutex_exit(&sensor_mutex);
+        }
+        sleep_ms(10); // Adjust polling interval
+    }
+}
 
 int main() {
      stdio_init_all();
@@ -385,6 +402,7 @@ int main() {
         init_all_GPIO();
         init_gpio_interupts();
         init_mutex();
+        multicore_launch_core1(core1_entry);
     #pragma endregion
     
      //***************************************Integration***************************************//
