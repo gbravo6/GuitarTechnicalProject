@@ -33,12 +33,14 @@
         <!--back button-->
         <Button Name ="UI_Back_Btn" Content="Back" Width="75" Height="25"  Click="UI_Back_Btn_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,15,0,0"/>
         <!--String names-->
+        
         <Label Content="E" FontWeight="Bold" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="265,100,0,50"/>
         <Label Content="A" FontWeight="Bold" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="312,100,0,50"/>
         <Label Content="D" FontWeight="Bold" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="362,100,0,50"/>
         <Label Content="G" FontWeight="Bold" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="412,100,0,50"/>
         <Label Content="B" FontWeight="Bold" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="465,100,0,50"/>
         <Label Content="E" FontWeight="Bold" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="512,100,0,50"/>
+        
         <!--fingerings-->
         <Ellipse Width="40" Height="40" Fill="White" Stroke="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="457,220,0,0"  />
         <Label Content="1" Width="40" Height="40" FontSize="24" HorizontalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="457,220,0,0" />
@@ -50,5 +52,6 @@
         <Label Content="X" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="265,150,0,50"/>
         <Label Content="O" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="310,150,0,50"/>
         <Label Content="O" FontSize="32"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="510,150,0,50"/>
+
     </Grid>
 </Page>

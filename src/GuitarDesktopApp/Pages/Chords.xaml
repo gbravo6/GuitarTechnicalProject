@@ -13,12 +13,41 @@
         <Label Name="UI_Chords_Lbl" Content="Chords" HorizontalAlignment="Center" FontSize="48" VerticalAlignment="Top" FontWeight="Bold" />
         <Button Name="UI_Home_Btn" Content="HOME" Width="50" Height="25" Click="UI_Home_Btn_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,15,0,0" />
         <Button Name="UI_HowTo_Btn" Content="How to Read a Chord Diagram" Width="200" Height="50"  Click="UI_HowTo_Btn_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,15,0" />
-        <Image Margin="32,94,660,257" Source="/ChordImages/a-chord.jpg" Stretch="Fill"/>
-        
 
-        <Button Name="Am_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left">
+        <Button Name="A_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
+        Margin="50,100,0,0">
+            <Image Source="/ChordImages/a-chord.jpg" Stretch="Fill" />
+        </Button>
+        <Button Name="Am_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
+                Margin="170,100,0,0" Background="White">
             <Image Source="/ChordImages/am-chord-diagram-823x1024.png" Stretch="Fill" />    
         </Button>
+        <Button Name="C_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
+        Margin="290,100,0,0" Background="White">
+            <Image Source="/ChordImages/c-chord-diagram.png" Stretch="Fill" />
+        </Button>
+        <Button Name="D_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
+        Margin="410,100,0,0" Background="White">
+            <Image Source="/ChordImages/d-chord.png" Stretch="Fill" />
+        </Button>
+        <Button Name="Dm_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
+        Margin="530,100,0,0" Background="White">
+            <Image Source="/ChordImages/dm-chord.jpg" Stretch="Fill" />
+        </Button>
+        <Button Name="e_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
+        Margin="650,100,0,0" Background="White">
+            <Image Source="/ChordImages/e-chord.jpg" Stretch="Fill" />
+        </Button>
+        <Button Name="em_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
+        Margin="50,250,0,0" Background="White">
+            <Image Source="/ChordImages/em-chord-diagram-823x1024.png" Stretch="Fill" />
+        </Button>
+        <Button Name="g_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
+        Margin="170,250,0,0" Background="White">
+            <Image Source="/ChordImages/g-chord-diagram.png" Stretch="Fill" />
+        </Button>
+
+
 
     </Grid>
     

@@ -17,6 +17,7 @@
     <None Remove="ChordImages\e-chord.jpg" />
     <None Remove="ChordImages\em-chord-diagram-823x1024.png" />
     <None Remove="ChordImages\g-chord-diagram.png" />
+    <None Remove="Scale Images\em_pentatonic.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +33,7 @@
     <Resource Include="ChordImages\e-chord.jpg" />
     <Resource Include="ChordImages\em-chord-diagram-823x1024.png" />
     <Resource Include="ChordImages\g-chord-diagram.png" />
+    <Resource Include="Scale Images\em_pentatonic.png" />
   </ItemGroup>
 
 </Project>

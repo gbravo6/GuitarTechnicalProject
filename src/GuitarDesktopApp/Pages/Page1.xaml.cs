@@ -1,4 +1,5 @@
 ﻿using InTheHand.Net.Sockets;
+using InTheHand.Net.Bluetooth;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using InTheHand.Net;
+using GuitarDesktopApp.Pages;
 
 namespace GuitarDesktopApp
 {
@@ -26,6 +29,7 @@ namespace GuitarDesktopApp
         //fields 
         BluetoothClient btc = null;
         BluetoothDeviceInfo[] devices = null;
+        BluetoothDeviceInfo connected = null;
         public Page1()
         {
             InitializeComponent();
@@ -45,7 +49,7 @@ namespace GuitarDesktopApp
             {
 
                 btc = new BluetoothClient();
-                devices = btc.DiscoverDevices();
+                devices = btc.DiscoverDevicesInRange();
             }
             catch (Exception ex)
             {
@@ -54,13 +58,45 @@ namespace GuitarDesktopApp
             }
             foreach (BluetoothDeviceInfo device in devices)
             {
-                UI_Devices_List.Items.Add($"Device Name: {device.DeviceName} | Address: {device.DeviceAddress}");
+                UI_Devices_List.Items.Add(device.DeviceName);
             }
         }
 
         private void UI_Chord_Btn_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Chords());
+        }
+
+        private void UI_Connect_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            Trace.WriteLine("Connect button clicked");
+            if(devices != null)
+            {
+                foreach (BluetoothDeviceInfo device in devices)
+                {
+                    if (UI_Devices_List.SelectedItem != null && UI_Devices_List.SelectedItem.ToString() == device.DeviceName)
+                    {
+                        connected = device;
+
+                        //attempt to connect 
+                        try
+                        {
+                            btc.Connect(new BluetoothEndPoint(connected.DeviceAddress, BluetoothService.SerialPort));
+                            Trace.WriteLine($"Connected Success: {device.DeviceName}");
+                        }
+                        catch(Exception ex)
+                        {
+                            Trace.WriteLine($"Connection Failed: {ex.Message}");
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void UI_Scales_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Scales());
         }
     }
 }
