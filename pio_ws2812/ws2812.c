@@ -193,6 +193,7 @@
  #pragma endregion
  #pragma region PS Variables
     static mutex_t sensor_mutex;
+    static uint32_t last_adc_zero_time =0;
     static int sensor_buffer[MAX_CHANNELS][2]={{0}};
     static int buffer_index =0;
     volatile int active_mux = -1;
@@ -237,29 +238,17 @@
         gpio_init(MUX3_S2_PIN); gpio_set_dir(MUX3_S2_PIN, GPIO_OUT);
         gpio_init(MUX3_S3_PIN); gpio_set_dir(MUX3_S3_PIN, GPIO_OUT);
     }
-    void handle_sig_interrupt(uint gpio, uint32_t events){
-        gpio_acknowledge_irq(gpio, events);
-        for(int i = 0; i<3;i++){
-            if(gpio == mux_configs[i].sig_pin){
-                active_mux = i;
-                break;
-            }
-        }
-    }
     void select_mux_channel(MuxConfig* mux, uint8_t channel) {
         gpio_put(mux->s0, (channel >> 0) & 1);
         gpio_put(mux->s1, (channel >> 1) & 1);
         gpio_put(mux->s2, (channel >> 2) & 1);
         gpio_put(mux->s3, (channel >> 3) & 1);
         busy_wait_us_32(MUX_SETTLE_TIME_US);
-        //sleep_us(MUX_SETTLE_TIME_US);  // Allow MUX to fully switch
     }
     uint16_t get_adc_value(MuxConfig* mux) {
         adc_select_input(mux->adc_channel);
         // Discard first reading (helps eliminate residual values)
         adc_read();  
-        busy_wait_us_32(50); 
-        //sleep_us(100);  
 
         uint16_t sum = 0;
         for (int i = 0; i < STABLE_READS; i++) {
@@ -268,6 +257,15 @@
             busy_wait_us_32(50);
         }
         return sum / STABLE_READS;  
+    }
+    void handle_sig_interrupt(uint gpio, uint32_t events){
+        gpio_acknowledge_irq(gpio, events);
+        for(int i = 0; i<3;i++){
+            if(gpio == mux_configs[i].sig_pin){
+                active_mux = i;
+                break;
+            }
+        }
     }
     void init_gpio_interupts() {
         for (int i = 0; i < 3; i++) {
@@ -281,6 +279,7 @@
         sensor_buffer[buffer_index][0] = channel;
         sensor_buffer[buffer_index][1] = to_ms_since_boot(get_absolute_time());
         buffer_index = (buffer_index + 1) % MAX_CHANNELS;
+        active_mux = -1;
     }
     void process_sensor_buffer(){
         for(int i = 0; i< MAX_CHANNELS; i++){
@@ -290,29 +289,14 @@
             }
         }
     }
-    void process_mux_signal(int mux_index) {
-        mutex_enter_blocking(&sensor_mutex);
+    // void process_mux_signal() {
+    //     mutex_enter_blocking(&sensor_mutex);
+        
+        
+    //     mutex_exit(&sensor_mutex);
+    //     active_mux=-1;
+    // }
     
-        printf("Processing signal from MUX %d...\n", mux_index + 1);
-    
-        int num_pressed = last_num_pressed;
-    
-        if (num_pressed > 0) {
-            uint32_t now = to_ms_since_boot(get_absolute_time());
-            if (last_press_time == 0) {
-                last_press_time = now;
-            }
-            for (int i = 0; i < num_pressed; i++) {
-                printf("Detected Channels %d ", last_detected_channels[i]);
-            }
-        } else {
-            printf("Chord released. Resetting detection.\n");
-            last_press_time = 0;
-        }
-    
-        mutex_exit(&sensor_mutex);
-        process_sensor_buffer();
-    }
     
     
 #pragma endregion
@@ -330,38 +314,25 @@ void core1_entry() {
             MuxConfig* current_mux = &mux_configs[i];
             adc_select_input(current_mux->adc_channel);
 
-            int detected_channels[MAX_CHANNELS] = {0};  
-            int num_pressed = 0;
-
             for (int channel = 0; channel < MAX_CHANNELS; channel++) {
                 select_mux_channel(current_mux, channel);
-                uint16_t value = get_adc_value(current_mux);
-
-                if (value > PRESSED_THRESHOLD) {
-                    detected_channels[num_pressed++] = channel;
+                sleep_ms(0);
+                
+                if (active_mux != -1) {
+                    printf("Processing signal from MUX %d...\n", active_mux + 1);
+                    update_sensor_buffer(channel);
                 }
             }
-
-            mutex_enter_blocking(&sensor_mutex);
-            // Update last_detected_channels only if necessary
-            if (num_pressed > 0) {
-                for (int j = 0; j < num_pressed; j++) {
-                    last_detected_channels[j] = detected_channels[j];
-                }
-                last_num_pressed = num_pressed;
-                if (active_mux == -1) {
-                    active_mux = i; // Set active_mux here
-                }
-            } else {
-                if (last_num_pressed > 0) {
-                    last_num_pressed = 0;
-                    memset(last_detected_channels, 0, sizeof(last_detected_channels));
-                    active_mux = -1; // Reset active_mux
+            if (active_mux == -1) {
+                if (last_adc_zero_time == 0) {
+                    last_adc_zero_time = to_ms_since_boot(get_absolute_time());
+                } else if (to_ms_since_boot(get_absolute_time()) - last_adc_zero_time >= 1000) {
+                    //printf("Chord released. Resetting detection.\n");
+                    process_sensor_buffer();
+                    last_adc_zero_time = 0; // Reset timer
                 }
             }
-            mutex_exit(&sensor_mutex);
         }
-        sleep_ms(10); // Adjust polling interval
     }
 }
 
@@ -412,11 +383,9 @@ int main() {
      } 
      //multicore_launch_core1(core1_entry);
      while(true){
-        if(active_mux != -1){
-            process_mux_signal(active_mux);
-            active_mux = -1;
-        }
-        sleep_ms(1);
+        // if(active_mux != -1){
+        //     process_mux_signal();
+        // }
     }
      // This will free resources and unload our program
      pio_remove_program_and_unclaim_sm(&ws2812_program, pio, sm, offset);
