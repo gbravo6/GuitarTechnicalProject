@@ -49,7 +49,8 @@
  #pragma region LED Variables
     uint32_t led_buffer[NUM_PIXELS];
     bool timer_ready = false;
-    
+    bool played = false;
+
     int led_index = 0;
     int sensor_index = 0;
     
@@ -135,10 +136,10 @@
         }
     }
 
-    void set_sequence(Sequence *seq){
+    void set_sequence(Sequence *seq, int new_index){
         seq->first = seq->second;
         seq->second = seq->third;
-        seq->third = rand() % NUM_PIXELS;
+        seq->third = new_index;
     }
     void set_leds_in_sequence(Sequence s, PIO pio, uint sm){
         for (int i = 0; i < NUM_PIXELS; i++) {
@@ -159,6 +160,17 @@
     void gpio_callback(uint gpio, uint32_t events) {
         printf("GPIO %d interrupt\n", gpio);
     }
+    int get_led_index(int strip, int led, int flag){
+        if(flag == -1)
+            played = false;
+        else
+            played = true;
+        return ((strip - 1)*6) + led;
+    }
+    /*
+    set_sequence(led_sequence, led_index); // update the sequence with the new index
+    */
+
 #pragma endregion
  
 //***************************************Sensor Stuff***************************************//
