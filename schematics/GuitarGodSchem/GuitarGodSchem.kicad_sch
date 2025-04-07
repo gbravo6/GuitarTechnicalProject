@@ -2453,6 +2453,50 @@
 		)
 		(uuid e17ebb55-4473-4eb7-b8c1-0f100c18d066)
 	)
+	(no_connect
+		(at 275.59 62.23)
+		(uuid "1bec5129-e2c7-48c5-8cf2-5ec669ce0854")
+	)
+	(no_connect
+		(at 275.59 64.77)
+		(uuid "27198ee4-b545-4349-aad4-a993c9c3a4f3")
+	)
+	(no_connect
+		(at 275.59 59.69)
+		(uuid "2abd249f-f149-44c3-b1a0-b055674fa26c")
+	)
+	(no_connect
+		(at 275.59 49.53)
+		(uuid "31368188-4cbc-4273-9954-e20908f714c8")
+	)
+	(no_connect
+		(at 275.59 57.15)
+		(uuid "42ad5b1d-c8de-40e0-b73c-3423ac5f160a")
+	)
+	(no_connect
+		(at 252.73 24.13)
+		(uuid "5ed73bca-76f1-4ee9-9621-37c4fe31b238")
+	)
+	(no_connect
+		(at 275.59 54.61)
+		(uuid "7de001c0-8f40-47d0-b9c6-fce4ddf45033")
+	)
+	(no_connect
+		(at 275.59 52.07)
+		(uuid "a609698f-5065-4a1f-98aa-788b8a4222b5")
+	)
+	(no_connect
+		(at 229.87 80.01)
+		(uuid "c2734630-6c6b-466d-8eb6-f448bcf9eed0")
+	)
+	(no_connect
+		(at 257.81 24.13)
+		(uuid "e1f53a5f-9aeb-4e8a-9c20-0c500dbb11d6")
+	)
+	(no_connect
+		(at 229.87 82.55)
+		(uuid "f8eefac2-575b-461d-b52a-f24e68d94a68")
+	)
 	(wire
 		(pts
 			(xy 168.91 179.07) (xy 175.26 179.07)
@@ -2722,6 +2766,16 @@
 			(type default)
 		)
 		(uuid "1d6624b5-61ac-45fc-afb3-f16ea6f2c29c")
+	)
+	(wire
+		(pts
+			(xy 218.44 77.47) (xy 229.87 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1d76335a-a98f-4d46-bce2-f2ccd224c201")
 	)
 	(wire
 		(pts
@@ -4992,6 +5046,16 @@
 			(justify right bottom)
 		)
 		(uuid "5a91e540-4151-4963-b5d3-39c173ec6eb7")
+	)
+	(label "LED_Strip"
+		(at 218.44 77.47 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "5b6148d2-42f6-4a13-9df9-87e88cbbcaa6")
 	)
 	(label "M2_C13"
 		(at 124.46 62.23 180)
