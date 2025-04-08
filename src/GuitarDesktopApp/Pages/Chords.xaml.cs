@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
 
 namespace GuitarDesktopApp
 {
@@ -20,19 +22,34 @@ namespace GuitarDesktopApp
     /// </summary>
     public partial class Chords : Page
     {
-        public Chords()
+        //fields and properties
+        MainWindow mainWin = null;
+        public Chords(MainWindow mainWindow)
         {
             InitializeComponent();
+            mainWin = mainWindow;
         }
 
         private void UI_Home_Btn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Page1());
+            NavigationService.GoBack();
         }
 
         private void UI_HowTo_Btn_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new HowToReadChord());
+        }
+
+        private async void A_btn_Click(object sender, RoutedEventArgs e)
+        {
+            //prep and send through socket 
+            var jsonSend = new
+            {
+                guess = 100
+            };
+
+            byte[] sendBuffer = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(jsonSend));
+            await mainWin._Client.SendAsync(new ArraySegment<byte>(sendBuffer), SocketFlags.None);
         }
     }
 }

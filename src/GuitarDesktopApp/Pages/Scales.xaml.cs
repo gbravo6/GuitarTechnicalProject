@@ -27,7 +27,7 @@ namespace GuitarDesktopApp.Pages
 
         private void UI_Home_Btn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Page1());
+            NavigationService.GoBack();
         }
     }
 }

@@ -92,3 +92,4 @@ C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\ob
 C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\Page1.baml
 C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\Scales.g.cs
 C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\Scales.baml
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
