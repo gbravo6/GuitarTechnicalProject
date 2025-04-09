@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuitarDesktopApp", "GuitarDesktopApp.csproj", "{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDA_Server_Form", "..\GDA_Server_Form\GDA_Server_Form.csproj", "{35A04773-B80F-459B-9981-BAFC83272E41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35A04773-B80F-459B-9981-BAFC83272E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35A04773-B80F-459B-9981-BAFC83272E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35A04773-B80F-459B-9981-BAFC83272E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35A04773-B80F-459B-9981-BAFC83272E41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

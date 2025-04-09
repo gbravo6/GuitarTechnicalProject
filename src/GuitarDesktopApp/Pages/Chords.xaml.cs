@@ -42,10 +42,15 @@ namespace GuitarDesktopApp
 
         private async void A_btn_Click(object sender, RoutedEventArgs e)
         {
+            SendJSON("A");
+        }
+
+        public async void SendJSON(string chord)
+        {
             //prep and send through socket 
             var jsonSend = new
             {
-                guess = 100
+                chord = chord
             };
 
             byte[] sendBuffer = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(jsonSend));

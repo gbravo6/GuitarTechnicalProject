@@ -11,8 +11,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GuitarDesktopApp.Pages;
-using InTheHand.Net.Bluetooth;
-using InTheHand.Net.Sockets;
+using GDA_Server_Form;
+using System.Net;
 
 namespace GuitarDesktopApp
 {
@@ -31,6 +31,13 @@ namespace GuitarDesktopApp
         public Chords _chords { get { return chords; } set { chords = value; } }
         Scales scales;
 
+        ServerForm server;
+
+        public Socket listener = null;
+        public Socket Listener { get; set; }
+        public Socket picoClient = null;
+        public Socket pClient { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -45,5 +52,6 @@ namespace GuitarDesktopApp
             _chords = new Chords(this);
             mainFrame.Content = main;
         }
+       
     }
 }

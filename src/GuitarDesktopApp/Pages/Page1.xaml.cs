@@ -1,6 +1,4 @@
-﻿using InTheHand.Net.Sockets;
-using InTheHand.Net.Bluetooth;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -15,9 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using InTheHand.Net;
 using GuitarDesktopApp.Pages;
 using System.Net.Sockets;
+using System.Net;
 
 namespace GuitarDesktopApp
 {
@@ -28,10 +26,6 @@ namespace GuitarDesktopApp
     {
         //properties
         //fields 
-        BluetoothClient btc = null;
-        BluetoothDeviceInfo[] devices = null;
-        BluetoothDeviceInfo connected = null;
-
         public MainWindow mainWin;
         
         public Page1(MainWindow mainWindow)
@@ -39,27 +33,6 @@ namespace GuitarDesktopApp
             InitializeComponent();
             DataContext = mainWindow;
             mainWin = mainWindow;
-        }
-
-        private void UI_Scan_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            UI_Devices_List.Items.Clear();
-            //scan for devices
-            try
-            {
-
-                btc = new BluetoothClient();
-                devices = btc.DiscoverDevicesInRange();
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine($"Scanning Devices Failed: {ex.Message}");
-                UI_Devices_List.Items.Add("Scanning Devices Failed.");
-            }
-            foreach (BluetoothDeviceInfo device in devices)
-            {
-                UI_Devices_List.Items.Add(device.DeviceName);
-            }
         }
 
         private void UI_Chord_Btn_Click(object sender, RoutedEventArgs e)
@@ -70,66 +43,95 @@ namespace GuitarDesktopApp
         private async void UI_Connect_Btn_Click(object sender, RoutedEventArgs e)
         {
             Trace.WriteLine("Connect button clicked");
-            //if(devices != null)
-            //{
-            //    foreach (BluetoothDeviceInfo device in devices)
-            //    {
-            //        if (UI_Devices_List.SelectedItem != null && UI_Devices_List.SelectedItem.ToString() == device.DeviceName)
-            //        {
-            //            connected = device;
+            StartServer();
 
-            //            //attempt to connect 
-            //            try
-            //            {
-            //                btc.Connect(new BluetoothEndPoint(connected.DeviceAddress, BluetoothService.SerialPort));
-            //                Trace.WriteLine($"Connected Success: {device.DeviceName}");
-            //            }
-            //            catch(Exception ex)
-            //            {
-            //                Trace.WriteLine($"Connection Failed: {ex.Message}");
-            //                return;
-            //            }
-            //        }
-            //    }
+            ////check if client is null 
+            //if (mainWin._Client != null)
+            //{
+            //    Trace.WriteLine("Already Connected.");
+            //    return;
             //}
 
-            //check if client is null 
-            if (mainWin._Client != null)
-            {
-                Trace.WriteLine("Already Connected.");
-                return;
-            }
+            ////attempt a socket connection with the pico w
+            //try
+            //{
+            //    //create new socket
+            //    mainWin._Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            //    await mainWin._Client.ConnectAsync("localhost", 1666);
+            //}
+            //catch (SocketException se)
+            //{
+            //    Trace.WriteLine($"Connect:SocketException : {se.Message}");
+            //    mainWin._Client = null;
+            //    return;
+            //}
+            //catch (Exception ex)
+            //{
+            //    Trace.WriteLine($"Connect:Unkown Issue : {ex.Message}");
+            //    mainWin._Client = null;
+            //    return;
+            //}
 
-            var placeholderAddress = "plppl";
-
-            //attempt a socket connection with the pico w
-            try
-            {
-                //create new socket
-                mainWin._Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                await mainWin._Client.ConnectAsync("172.16.55.24", 1666);
-            }
-            catch (SocketException se)
-            {
-                Trace.WriteLine($"Connect:SocketException : {se.Message}");
-                mainWin._Client = null;
-                return;
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine($"Connect:Unkown Issue : {ex.Message}");
-                mainWin._Client = null;
-                return;
-            }
-
-            //if all is good 
-            Trace.WriteLine("Connection Successful.");
+            ////if all is good 
+            //Trace.WriteLine("Connection Successful.");
 
         }
 
         private void UI_Scales_Btn_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Scales());
+        }
+
+        private void StartServer()
+        {
+            try
+            {
+                // Create the listening socket with TCP stream
+                mainWin.Listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                Trace.WriteLine("listener Socket Created.");
+
+                // Bind the listener socket to any available IP address and port 1666
+                mainWin.Listener.Bind(new IPEndPoint(IPAddress.Any, 1666));
+                Trace.WriteLine("Listener Binded.");
+
+                // Start listening for incoming connections
+                mainWin.Listener.Listen(0);
+                Trace.WriteLine("Listening...");
+
+                // Begin accepting the client connection asynchronously
+                AcceptPicoClient();
+            }
+            catch (Exception ex)
+            {
+                // Log any exceptions that occur during setup
+                Trace.WriteLine($"Something went wrong when listening: {ex.Message}");
+
+                // Clean up and reset listener socket if an error occurs
+                mainWin.Listener?.Close();
+                mainWin.Listener = null;
+            }
+        }
+
+        private async void AcceptPicoClient()
+        {
+            try
+            {
+                //attempt pico client connection asynchronously
+                mainWin.pClient = await mainWin.Listener.AcceptAsync();
+
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine($"Something went wrong when trying to accept the Pico Connection: {ex.Message}");
+                mainWin.pClient = null;
+                return;
+            }
+
+            //close listener
+            mainWin.Listener.Close();
+            mainWin.Listener = null;
+            Trace.WriteLine("Connection Succesful. Listener Dropped and Closed.");
+
         }
     }
 }

@@ -59,7 +59,6 @@ C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarD
 C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\GuitarDesktopApp.runtimeconfig.json
 C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\GuitarDesktopApp.dll
 C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\GuitarDesktopApp.pdb
-C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\InTheHand.Net.Personal.dll
 C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\GuitarDesktopApp.csproj.AssemblyReference.cache
 C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\MainWindow.g.cs
 C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\App.g.cs
@@ -93,3 +92,9 @@ C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\ob
 C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\Scales.g.cs
 C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\Scales.baml
 C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\Scales.g.cs
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\obj\Debug\net8.0-windows\Pages\Scales.baml
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\GDA_Server_Form.exe
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\GDA_Server_Form.pdb
+C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GuitarDesktopApp\bin\Debug\net8.0-windows\GDA_Server_Form.exe.config

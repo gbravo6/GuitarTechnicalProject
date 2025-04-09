@@ -2,19 +2,6 @@
   "version": 3,
   "targets": {
     "net8.0-windows7.0": {
-      "32feet.NET/3.5.0": {
-        "type": "package",
-        "compile": {
-          "lib/net/InTheHand.Net.Personal.dll": {
-            "related": ".XML"
-          }
-        },
-        "runtime": {
-          "lib/net/InTheHand.Net.Personal.dll": {
-            "related": ".XML"
-          }
-        }
-      },
       "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
@@ -27,25 +14,19 @@
             "related": ".xml"
           }
         }
+      },
+      "GDA_Server_Form/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/GDA_Server_Form.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GDA_Server_Form.dll": {}
+        }
       }
     }
   },
   "libraries": {
-    "32feet.NET/3.5.0": {
-      "sha512": "Edc4otytrDm/zSpssF61LsZzkxZeaCEAo4cOUO1foS6OhUUCsEPRRTmwEG+jYC2zU1sYFrpZnjJU6F3a6NjSgA==",
-      "type": "package",
-      "path": "32feet.net/3.5.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "32feet.net.3.5.0.nupkg.sha512",
-        "32feet.net.nuspec",
-        "lib/net-cf/InTheHand.Net.Personal.XML",
-        "lib/net-cf/InTheHand.Net.Personal.dll",
-        "lib/net/InTheHand.Net.Personal.XML",
-        "lib/net/InTheHand.Net.Personal.dll"
-      ]
-    },
     "Newtonsoft.Json/13.0.3": {
       "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
@@ -75,42 +56,55 @@
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
+    },
+    "GDA_Server_Form/1.0.0": {
+      "type": "project",
+      "path": "../GDA_Server_Form/GDA_Server_Form.csproj",
+      "msbuildProject": "../GDA_Server_Form/GDA_Server_Form.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0-windows7.0": [
-      "32feet.NET >= 3.5.0",
+      "GDA_Server_Form >= 1.0.0",
       "Newtonsoft.Json >= 13.0.3"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\gBrav\\.nuget\\packages\\": {}
+    "C:\\Users\\Griffin\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
+      "projectUniqueName": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
       "projectName": "GuitarDesktopApp",
-      "projectPath": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
-      "packagesPath": "C:\\Users\\gBrav\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\obj\\",
+      "projectPath": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
+      "packagesPath": "C:\\Users\\Griffin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\gBrav\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Griffin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net8.0-windows"
+        "net8.0-windows7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0-windows7.0": {
-          "targetAlias": "net8.0-windows",
-          "projectReferences": {}
+          "targetAlias": "net8.0-windows7.0",
+          "projectReferences": {
+            "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj": {
+              "projectPath": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -122,16 +116,13 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0-windows7.0": {
-        "targetAlias": "net8.0-windows",
+        "targetAlias": "net8.0-windows7.0",
         "dependencies": {
-          "32feet.NET": {
-            "target": "Package",
-            "version": "[3.5.0, )"
-          },
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
@@ -152,24 +143,12 @@
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           },
-          "Microsoft.WindowsDesktop.App.WPF": {
+          "Microsoft.WindowsDesktop.App": {
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package '32feet.NET 3.5.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0-windows7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "32feet.NET",
-      "targetGraphs": [
-        "net8.0-windows7.0"
-      ]
-    }
-  ]
+  }
 }
