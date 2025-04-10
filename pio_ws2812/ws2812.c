@@ -168,7 +168,14 @@
         seq->second = seq->third;
         seq->third = new_index;
     }
-
+    void all_on(PIO pio, uint sm){
+        for (int i = 0; i < NUM_PIXELS; i++) {
+            led_buffer[i] = set_colour(blue,0.95);
+        }
+        for(int i=0; i<NUM_PIXELS; i++) {
+            pio_sm_put_blocking(pio, sm, led_buffer[i]);
+        }
+    }
     // Applies a three-part color pattern to the LED strip based on the sequence
     void set_leds_in_sequence(Sequence s, PIO pio, uint sm){
         for (int i = 0; i < NUM_PIXELS; i++) {
@@ -415,6 +422,12 @@ void process_sensor_buffer(){
 }
 
 #pragma endregion
+#pragma clientregion
+//***************************************Client Stuff***************************************//
+int get_index(int strip, int led){
+    return ((strip - 1)*6) + led;  // Calculate the LED index based on strip and LED number
+}
+#pragma endregion
 
  //***************************************Other Stuff***************************************//
 // todo get free sm
@@ -431,7 +444,7 @@ void core1_entry() {
 
             for (int channel = 0; channel < MAX_CHANNELS; channel++) {  // Loop through all channels on this MUX
                 select_mux_channel(current_mux, channel);  // Set the MUX to the specified channel
-                sleep_ms(0);  // Minimal delay; this may be a placeholder or intentional no-op (could be removed)
+                sleep_ms(5);  // Minimal delay; this may be a placeholder or intentional no-op (could be removed)
 
                 if (active_mux != -1) {  // If an interrupt has recently identified this MUX as active
                     printf("Processing signal from MUX %d...\n", active_mux + 1);
@@ -487,7 +500,8 @@ int main() {
         printf("LED INDEX: %d\n", led_index);
 
         // Optionally set an LED here, currently done through sequence logic
-        set_leds_in_sequence(led_sequence, pio, sm);  // Light up initial sequence
+        // set_leds_in_sequence(led_sequence, pio, sm);  // Light up initial sequence
+        all_on(pio, sm);  // Turn on all LEDs for testing
     #pragma endregion
 
     //***************************************ADC Init***************************************//
@@ -501,7 +515,8 @@ int main() {
 
     //***************************************Integration***************************************//
     printf("starting\n");
-    
+    led_index = get_index(rand() % 3 + 1, rand() % 6 + 1);  // Randomly select a LED index for the sequence for testing purposes, ideally we want to use get_index on json data
+
     // Wait until USB serial is connected (optional, useful for debugging)
     while (!stdio_usb_connected) {
         sleep_ms(100);  // Polling every 100 ms
@@ -510,6 +525,7 @@ int main() {
     // Main loop is empty — actual work happens in Core 1
     while (true) {
         // Possibly used for UI, status reporting, or event-driven tasks in the future
+        
     }
 
     // Clean up: unload the WS2812 program and free associated resources (unlikely to be reached)
