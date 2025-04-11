@@ -170,7 +170,7 @@
     }
     void all_on(PIO pio, uint sm){
         for (int i = 0; i < NUM_PIXELS; i++) {
-            led_buffer[i] = set_colour(blue,0.95);
+            led_buffer[i] = set_colour(blue,0.25);
         }
         for(int i=0; i<NUM_PIXELS; i++) {
             pio_sm_put_blocking(pio, sm, led_buffer[i]);
