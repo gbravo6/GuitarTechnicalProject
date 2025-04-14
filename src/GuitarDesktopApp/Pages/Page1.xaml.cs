@@ -43,37 +43,21 @@ namespace GuitarDesktopApp
         private async void UI_Connect_Btn_Click(object sender, RoutedEventArgs e)
         {
             Trace.WriteLine("Connect button clicked");
-            StartServer();
+            //StartServer();
 
-            ////check if client is null 
-            //if (mainWin._Client != null)
-            //{
-            //    Trace.WriteLine("Already Connected.");
-            //    return;
-            //}
-
-            ////attempt a socket connection with the pico w
-            //try
-            //{
-            //    //create new socket
-            //    mainWin._Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            //    await mainWin._Client.ConnectAsync("localhost", 1666);
-            //}
-            //catch (SocketException se)
-            //{
-            //    Trace.WriteLine($"Connect:SocketException : {se.Message}");
-            //    mainWin._Client = null;
-            //    return;
-            //}
-            //catch (Exception ex)
-            //{
-            //    Trace.WriteLine($"Connect:Unkown Issue : {ex.Message}");
-            //    mainWin._Client = null;
-            //    return;
-            //}
-
-            ////if all is good 
-            //Trace.WriteLine("Connection Successful.");
+            try
+            {
+                mainWin.udpClient = new UdpClient();
+                mainWin.udpClient.Connect("172.20.10.11", 1666);
+                byte[] sendBuffer = Encoding.UTF8.GetBytes("hello pico");
+                mainWin.udpClient.Send(sendBuffer, sendBuffer.Length);
+                Trace.WriteLine("Hello pico was sent.");
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("Something went wrong");
+                return;
+            }
 
         }
 

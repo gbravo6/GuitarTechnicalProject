@@ -42,7 +42,8 @@ namespace GuitarDesktopApp
 
         private async void A_btn_Click(object sender, RoutedEventArgs e)
         {
-            SendJSON("A");
+            //SendJSON("A");
+            mainWin.udpClient.Send(Encoding.UTF8.GetBytes("ch_A-"),"ch_A".Length);
         }
 
         public async void SendJSON(string chord)

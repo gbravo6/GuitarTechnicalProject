@@ -44,7 +44,18 @@ pico_generate_pio_header(pio_ws2812 ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio OUTPUT_
 
 target_sources(pio_ws2812 PRIVATE ws2812.c)
 
-target_link_libraries(pio_ws2812 PRIVATE pico_stdlib hardware_pio pico_stdio_usb pico_multicore)
+target_include_directories(pio_ws2812 PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/..
+)
+
+target_link_libraries(pio_ws2812 PRIVATE 
+        pico_stdlib 
+        hardware_pio 
+        pico_stdio_usb 
+        pico_multicore
+        pico_cyw43_arch_lwip_threadsafe_background
+        )
 pico_add_extra_outputs(pio_ws2812)
 
 # turn on usb
@@ -66,6 +77,7 @@ pico_add_extra_outputs(pio_ws2812_parallel)
 
 target_link_libraries(pio_ws2812 PRIVATE pico_stdlib hardware_adc)
 # add url via pico_set_program_url
+
 
 # Additionally generate python and hex pioasm outputs for inclusion in the RP2040 datasheet
 add_custom_target(pio_ws2812_datasheet DEPENDS ${CMAKE_CURRENT_LIST_DIR}/generated/ws2812.py)

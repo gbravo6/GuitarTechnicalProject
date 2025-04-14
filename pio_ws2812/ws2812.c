@@ -16,6 +16,73 @@
     #include "hardware/gpio.h"
     #include "pico/multicore.h"
     #include "pico/mutex.h"
+    #include "pico/cyw43_arch.h"
+    #include "lwip/udp.h"
+    #include "lwip/pbuf.h"
+ #pragma endregion
+
+ //*****************************************WIFI/UDP*****************************************//
+ #pragma region Wifi Defines
+ #define WIFI_NAME "JennyTalls"
+ #define PASSWORD  "test12345"
+ #define UDP_PORT 1666
+ #define PC_IP "" //define on testing
+ #pragma endregion
+ 
+ #pragma region UDP Methods
+
+
+ void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr, u16_t port){
+    printf("Receive Callback Reached.\n");
+
+    //convert databytes into char array/string
+    char *pData = (char *)p -> payload;
+
+    //remove trailing characters
+    char *pos = strchr(pData, '}');
+    if (pos != NULL){
+        *(pos + 1) = '\0';
+    }
+
+    printf("Received: %s\n", pData);
+    //printf ("Rcv from %s:%d, total %d [", addr, port, p->tot_len);
+
+    //free/reset buffer
+    pbuf_free(p);
+}
+
+void udp_begin_receiving()
+{
+    //create new udp listener
+    struct udp_pcb *listener = udp_new();
+    //bind to ip address
+    err_t err = udp_bind(listener, IP_ADDR_ANY, UDP_PORT);
+    //begin receiving thread
+    udp_recv(listener, receive_callback, NULL);
+}
+
+int wifi_init(){
+    // Initialise the Wi-Fi chip
+    if (cyw43_arch_init()) {
+        printf("Wi-Fi init failed\n");
+        return -1;
+    }
+
+    // Enable wifi station
+    cyw43_arch_enable_sta_mode();
+
+    //  Connect to Wifi
+    printf("Connecting to Wi-Fi...\n");
+    if (cyw43_arch_wifi_connect_timeout_ms(WIFI_NAME, PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
+        printf("failed to connect.\n");
+        return 1;
+    } else {
+        printf("Connected.\n");
+        // Read the ip address in a human readable way
+        uint8_t *ip_address = (uint8_t*)&(cyw43_state.netif[0].ip_addr.addr);
+        printf("IP address %d.%d.%d.%d\n", ip_address[0], ip_address[1], ip_address[2], ip_address[3]);
+    }
+}
  #pragma endregion
  //****************************************LED  Stuff****************************************//
  /**
@@ -595,6 +662,9 @@ void core1_entry() {
 int main() {
     stdio_init_all();  // Initialize all standard IO, including USB serial if connected
 
+    wifi_init(); //initialize wifi connection with blocking 
+
+    udp_begin_receiving(); //begin udp receiving
     //***************************************LED Init***************************************//
     #pragma region LED INIT
         // Unload any existing WS2812 (NeoPixel) PIO program and free its state machine

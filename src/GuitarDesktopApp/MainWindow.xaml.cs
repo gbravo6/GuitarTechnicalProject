@@ -35,9 +35,9 @@ namespace GuitarDesktopApp
 
         public Socket listener = null;
         public Socket Listener { get; set; }
-        public Socket picoClient = null;
+  
         public Socket pClient { get; set; }
-
+        public UdpClient udpClient { get; set; }
         public MainWindow()
         {
             InitializeComponent();

@@ -11,3 +11,16 @@ C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GDA_Ser
 C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GDA_Server_Form\obj\Debug\GDA_Serv.807438CF.Up2Date
 C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GDA_Server_Form\obj\Debug\GDA_Server_Form.exe
 C:\Users\Griffin\Documents\CNT FOLDERS\term 5\GuitarTechnicalProject\src\GDA_Server_Form\obj\Debug\GDA_Server_Form.pdb
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\bin\Debug\GDA_Server_Form.exe.config
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\bin\Debug\GDA_Server_Form.exe
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\bin\Debug\GDA_Server_Form.pdb
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\bin\Debug\Newtonsoft.Json.dll
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\bin\Debug\Newtonsoft.Json.xml
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\obj\Debug\GDA_Server_Form.csproj.AssemblyReference.cache
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\obj\Debug\GDA_Server_Form.ServerForm.resources
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\obj\Debug\GDA_Server_Form.Properties.Resources.resources
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\obj\Debug\GDA_Server_Form.csproj.GenerateResource.cache
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\obj\Debug\GDA_Server_Form.csproj.CoreCompileInputs.cache
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\obj\Debug\GDA_Serv.807438CF.Up2Date
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\obj\Debug\GDA_Server_Form.exe
+C:\Users\gBrav\OneDrive\Documents\GuitarTechnicalProject\src\GDA_Server_Form\obj\Debug\GDA_Server_Form.pdb
