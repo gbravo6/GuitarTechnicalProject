@@ -23,98 +23,13 @@
 
  //*****************************************WIFI/UDP*****************************************//
  #pragma region Wifi Defines
- #define WIFI_NAME "JennyTalls"
- #define PASSWORD  "test12345"
+ #define WIFI_NAME "HotspotTest"
+ #define PASSWORD  "1234678"
  #define UDP_PORT 1666
  #define PC_IP "" //define on testing
  #pragma endregion
  
- #pragma region UDP Methods
 
-
-//  void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr, u16_t port){
-//     printf("Receive Callback Reached.\n");
-
-//     //convert databytes into char array/string
-//     char *pData = (char *)p -> payload;
-
-//     //remove trailing characters
-//     char *pos = strchr(pData, '}');
-//     if (pos != NULL){
-//         *(pos + 1) = '\0';
-//     }
-
-//     printf("Received: %s\n", pData);
-//     //printf ("Rcv from %s:%d, total %d [", addr, port, p->tot_len);
-
-//     //free/reset buffer
-//     pbuf_free(p);
-// }
-const Chord* current_target_chord = NULL;
-
-void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr, u16_t port){
-    printf("Receive Callback Reached.\n");
-
-    char *pData = (char *)p->payload;
-    char buffer[32] = {0};
-    strncpy(buffer, pData, sizeof(buffer) - 1);
-
-    // Clean up buffer
-    char *pos = strchr(buffer, '}');
-    if (pos != NULL) *(pos + 1) = '\0';
-
-    printf("Received Chord Request: %s\n", buffer);
-
-    // Match incoming chord string to a Chord struct
-    current_target_chord = NULL;
-    for (int i = 0; i < chord_library_size; ++i) {
-        if (strcmp(buffer, chord_library[i]->name) == 0) {
-            current_target_chord = chord_library[i];
-            printf("Chord matched: %s\n", current_target_chord->name);
-            break;
-        }
-    }
-
-    if (current_target_chord == NULL) {
-        printf("No matching chord found.\n");
-    }
-
-    pbuf_free(p);
-}
-
-void udp_begin_receiving()
-{
-    //create new udp listener
-    struct udp_pcb *listener = udp_new();
-    //bind to ip address
-    err_t err = udp_bind(listener, IP_ADDR_ANY, UDP_PORT);
-    //begin receiving thread
-    udp_recv(listener, receive_callback, NULL);
-}
-
-int wifi_init(){
-    // Initialise the Wi-Fi chip
-    if (cyw43_arch_init()) {
-        printf("Wi-Fi init failed\n");
-        return -1;
-    }
-
-    // Enable wifi station
-    cyw43_arch_enable_sta_mode();
-
-    //  Connect to Wifi
-    printf("Connecting to Wi-Fi...\n");
-    if (cyw43_arch_wifi_connect_timeout_ms(WIFI_NAME, PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
-        printf("failed to connect.\n");
-        return 1;
-    } else {
-        printf("Connected.\n");
-        // Read the ip address in a human readable way
-        uint8_t *ip_address = (uint8_t*)&(cyw43_state.netif[0].ip_addr.addr);
-        printf("IP address %d.%d.%d.%d\n", ip_address[0], ip_address[1], ip_address[2], ip_address[3]);
-    }
-}
- #pragma endregion
  //****************************************LED  Stuff****************************************//
  /**
   * NOTE:
@@ -308,12 +223,20 @@ int wifi_init(){
 
     // Computes the LED index based on a matrix layout (e.g., for 6 LEDs per strip)
     // Also sets the 'played' flag depending on the flag input
-    int get_led_index(int strip, int led, int flag){
+    int get_led_index(int mx, int ch, int flag){
         if(flag == -1)
             played = false;
         else
             played = true;
-        return ((strip - 1)*6) + led;
+        if(mx == 1){
+            return ch;;
+        }
+        if(mx == 2){
+            return ch + 16;
+        }
+        if(mx == 3){
+            return ch + 32;
+        }
     }
      void clear_leds(PIO pio, uint sm) {
          for (int i = 0; i < NUM_PIXELS; i++) {
@@ -621,7 +544,7 @@ void update_sensor_buffer(int channel){
     sensor_buffer[buffer_index][0] = channel;
     sensor_buffer[buffer_index][1] = to_ms_since_boot(get_absolute_time());
     buffer_index = (buffer_index + 1) % MAX_CHANNELS;  // Wrap-around circular buffer
-    active_mux = -1;  // Reset active MUX to prevent re-use until next interrupt
+    //active_mux = -1;  // Reset active MUX to prevent re-use until next interrupt
 }
 
 void process_sensor_buffer(){
@@ -644,9 +567,12 @@ bool is_chord_pressed_correctly(const Chord* chord, bool sensor_state[MAX_MUX_CH
     }
     return true;  // All required channels pressed
 }
+
+Chord* current_target_chord = NULL;
+
+
 //Run this FOO once User selects "Learn Chords."
 void run_chord_learning_mode(void) {
-    
     if (current_target_chord != NULL) {
         //Debug
         printf("Current TargetChord: %d == SensorState: %d",current_target_chord,sensor_state);
@@ -655,7 +581,6 @@ void run_chord_learning_mode(void) {
             printf("✅ Correct chord %s played!\n", current_target_chord->name);
 
             // Advance to next chord
-            current_target_chord = get_next_target_chord();
 
             if (current_target_chord != NULL) {
                 printf("🎯 Next target chord: %s\n", current_target_chord->name);
@@ -665,7 +590,6 @@ void run_chord_learning_mode(void) {
         }
     } else {
         // Start chord learning sequence if not initialized
-        current_target_chord = get_next_target_chord();
         if (current_target_chord != NULL) {
             printf("🔰 Starting with chord: %s\n", current_target_chord->name);
         }
@@ -715,6 +639,90 @@ void update_sensor_state() {
     //     }
     // }
 #pragma endregion
+//**************************************More UDP Stuff**************************************//
+#pragma region UDP Methods
+//  void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr, u16_t port){
+//     printf("Receive Callback Reached.\n");
+
+//     //convert databytes into char array/string
+//     char *pData = (char *)p -> payload;
+
+//     //remove trailing characters
+//     char *pos = strchr(pData, '}');
+//     if (pos != NULL){
+//         *(pos + 1) = '\0';
+//     }
+
+//     printf("Received: %s\n", pData);
+//     //printf ("Rcv from %s:%d, total %d [", addr, port, p->tot_len);
+
+//     //free/reset buffer
+//     pbuf_free(p);
+// }
+
+void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr, u16_t port){
+    printf("Receive Callback Reached.\n");
+
+    char *pData = (char *)p->payload;
+    char buffer[32] = {0};
+    strncpy(buffer, pData, sizeof(buffer) - 1);
+
+    // Clean up buffer
+    char *pos = strchr(buffer, '}');
+    if (pos != NULL) *(pos + 1) = '\0';
+
+    printf("Received Chord Request: %s\n", buffer);
+
+    // Match incoming chord string to a Chord struct
+    current_target_chord = NULL;
+    for (int i = 0; i < chord_library_size; ++i) {
+        if (strcmp(buffer, chord_library[i]->name) == 0) {
+            current_target_chord = chord_library[i];
+            printf("Chord matched: %s\n", current_target_chord->name);
+            break;
+        }
+    }
+
+    if (current_target_chord == NULL) {
+        printf("No matching chord found.\n");
+    }
+
+    pbuf_free(p);
+}
+
+void udp_begin_receiving()
+{
+    //create new udp listener
+    struct udp_pcb *listener = udp_new();
+    //bind to ip address
+    err_t err = udp_bind(listener, IP_ADDR_ANY, UDP_PORT);
+    //begin receiving thread
+    udp_recv(listener, receive_callback, NULL);
+}
+
+// int wifi_init(){
+//     // Initialise the Wi-Fi chip
+//     if (cyw43_arch_init()) {
+//         printf("Wi-Fi init failed\n");
+//         return -1;
+//     }
+
+//     // Enable wifi station
+//     cyw43_arch_enable_sta_mode();
+
+//     //  Connect to Wifi
+//     printf("Connecting to Wi-Fi...\n");
+//     if (cyw43_arch_wifi_connect_timeout_ms(WIFI_NAME, PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
+//         printf("failed to connect.\n");
+//         return 1;
+//     } else {
+//         printf("Connected.\n");
+//         // Read the ip address in a human readable way
+//         uint8_t *ip_address = (uint8_t*)&(cyw43_state.netif[0].ip_addr.addr);
+//         printf("IP address %d.%d.%d.%d\n", ip_address[0], ip_address[1], ip_address[2], ip_address[3]);
+//     }
+// }
+ #pragma endregion
 //***************************************DEMO STUFF*****************************************//
 #define TOTAL_MUXES 3
 #define TOTAL_CHANNELS 16
@@ -812,7 +820,7 @@ void Demo() {
                         printf("Detected press: MUX %d, CH %d\n", active_mux + 1, ch);
                         update_sensor_buffer(ch);
 
-                        if ((active_mux + 1) == current_note.mux +1 && ch == current_note.channel) {
+                        if ((active_mux + 1) == current_note.mux && ch == current_note.channel) {
                             printf("✅ Correct note %s pressed\n", current_note.note);
                             //Debugging:
                             printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux+1);
@@ -889,10 +897,12 @@ void core1_entry() {
 }
 int main() {
     stdio_init_all();  // Initialize all standard IO, including USB serial if connected
+    while (!stdio_usb_connected) {
+        sleep_ms(100);  // Polling every 100 ms
+    }
+    // wifi_init(); //initialize wifi connection with blocking 
 
-    wifi_init(); //initialize wifi connection with blocking 
-
-    udp_begin_receiving(); //begin udp receiving
+    // udp_begin_receiving(); //begin udp receiving
     //***************************************LED Init***************************************//
     #pragma region LED INIT
         // Unload any existing WS2812 (NeoPixel) PIO program and free its state machine
@@ -923,7 +933,6 @@ int main() {
         // printf("LED INDEX: %d\n", led_index);
 
     #pragma endregion
-
     //***************************************ADC Init***************************************//
     #pragma region ADC INIT
         adc_init();               // Initialize the ADC hardware
@@ -938,8 +947,8 @@ int main() {
     // led_index = get_index(rand() % 3 + 1, rand() % 6 + 1);  // Randomly select a LED index for the sequence for testing purposes, ideally we want to use get_index on json data
 
     // Wait until USB serial is connected (optional, useful for debugging)
-    while (!stdio_usb_connected) {
-        sleep_ms(100);  // Polling every 100 ms
+    while(true){
+        
     }
     // Clean up: unload the WS2812 program and free associated resources (unlikely to be reached)
     pio_remove_program_and_unclaim_sm(&ws2812_program, pio, sm, offset);
