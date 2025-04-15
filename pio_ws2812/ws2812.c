@@ -32,22 +32,53 @@
  #pragma region UDP Methods
 
 
- void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr, u16_t port){
+//  void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr, u16_t port){
+//     printf("Receive Callback Reached.\n");
+
+//     //convert databytes into char array/string
+//     char *pData = (char *)p -> payload;
+
+//     //remove trailing characters
+//     char *pos = strchr(pData, '}');
+//     if (pos != NULL){
+//         *(pos + 1) = '\0';
+//     }
+
+//     printf("Received: %s\n", pData);
+//     //printf ("Rcv from %s:%d, total %d [", addr, port, p->tot_len);
+
+//     //free/reset buffer
+//     pbuf_free(p);
+// }
+const Chord* current_target_chord = NULL;
+
+void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr, u16_t port){
     printf("Receive Callback Reached.\n");
 
-    //convert databytes into char array/string
-    char *pData = (char *)p -> payload;
+    char *pData = (char *)p->payload;
+    char buffer[32] = {0};
+    strncpy(buffer, pData, sizeof(buffer) - 1);
 
-    //remove trailing characters
-    char *pos = strchr(pData, '}');
-    if (pos != NULL){
-        *(pos + 1) = '\0';
+    // Clean up buffer
+    char *pos = strchr(buffer, '}');
+    if (pos != NULL) *(pos + 1) = '\0';
+
+    printf("Received Chord Request: %s\n", buffer);
+
+    // Match incoming chord string to a Chord struct
+    current_target_chord = NULL;
+    for (int i = 0; i < chord_library_size; ++i) {
+        if (strcmp(buffer, chord_library[i]->name) == 0) {
+            current_target_chord = chord_library[i];
+            printf("Chord matched: %s\n", current_target_chord->name);
+            break;
+        }
     }
 
-    printf("Received: %s\n", pData);
-    //printf ("Rcv from %s:%d, total %d [", addr, port, p->tot_len);
+    if (current_target_chord == NULL) {
+        printf("No matching chord found.\n");
+    }
 
-    //free/reset buffer
     pbuf_free(p);
 }
 
@@ -131,18 +162,19 @@ int wifi_init(){
  int sensor_index = 0;
  
  // Predefined color values in RGB hex format
- const uint32_t green = 0xff00;
- const uint32_t white = 0xFFFFFF;
- const uint32_t blue = 0xFF;
- const uint32_t red = 0xFF0000;
- const uint32_t purple = 0x36013F;
- const uint32_t orange = 0xFFA500;
-
+ #define GREEN 0xff00
+ #define WHITE 0xFFFFFF
+ #define BLUE  0xFF
+ #define RED  0xFF0000
+ #define PURPLE 0x36013F
+ #define ORANGE 0xFFA500
+ #define YELLOW 0xFFFF00
+ #define OFF    0x000000
  // Array of colors for general display sequences
- uint32_t colours[3] = {blue, purple, green};
+ uint32_t colours[3] = {BLUE, PURPLE, GREEN};
 
  // Alternate color sequence used in playback scenarios
- uint32_t play_through[3] = {blue, orange, purple};
+ uint32_t play_through[3] = {BLUE, ORANGE, PURPLE};
 
  // Tracks the current index within a sequence
  uint current_index = 0;
@@ -238,7 +270,7 @@ int wifi_init(){
     }
     void all_on(PIO pio, uint sm){
         for (int i = 0; i < NUM_PIXELS; i++) {
-            led_buffer[i] = set_colour(blue,0.95);
+            led_buffer[i] = set_colour(BLUE,0.95);
         }
         for(int i=0; i<NUM_PIXELS; i++) {
             pio_sm_put_blocking(pio, sm, led_buffer[i]);
@@ -251,16 +283,16 @@ int wifi_init(){
         }
 
         // Bright blue for the most recent index
-        led_buffer[s.first] = set_colour(blue,0.95);
+        led_buffer[s.first] = set_colour(BLUE,0.95);
 
         // Purple for the second most recent, only if different from the first
         if (s.second != s.first) {
-            led_buffer[s.second] = set_colour(purple,0.35);
+            led_buffer[s.second] = set_colour(PURPLE,0.35);
         }
 
         // Dim white for the oldest in the sequence if distinct
         if (s.third != s.second && s.third != s.first) {
-            led_buffer[s.third] = set_colour(white,0.09);
+            led_buffer[s.third] = set_colour(WHITE,0.09);
         }
 
         // Write all buffer values to the strip
@@ -292,31 +324,31 @@ int wifi_init(){
     Example usage:
     set_sequence(led_sequence, led_index); // update the sequence with the new index
     */
-   void test_all_colors(PIO pio, uint sm, int delay_ms) {
-        uint32_t colors[] = {0xFF0000, 0x00FF00, 0x0000FF, 0xFFFFFF};  // Red, Green, Blue, White
-        int num_colors = sizeof(colors) / sizeof(colors[0]);
-
-        for (int c = 0; c < num_colors; c++) {
-            for (int i = 0; i < NUM_PIXELS; i++) {
-                led_buffer[i] = set_colour(colors[c], 0.8);
-            }
-            for (int i = 0; i < NUM_PIXELS; i++) {
-                pio_sm_put_blocking(pio, sm, led_buffer[i]);
-            }
-            sleep_ms(delay_ms);
-        }
-    }
-    void test_each_led(PIO pio, uint sm, uint32_t color, int delay_ms) {
-        for (int i = 0; i < NUM_PIXELS; i++) {
-            for (int j = 0; j < NUM_PIXELS; j++) {
-                led_buffer[j] = (j == i) ? set_colour(color, 0.9) : 0x000000;
-            }
-            for (int j = 0; j < NUM_PIXELS; j++) {
-                pio_sm_put_blocking(pio, sm, led_buffer[j]);
-            }
-            sleep_ms(delay_ms);
-        }
-    }
+    //TEST CODE
+//    void test_all_colors(PIO pio, uint sm, int delay_ms) {
+//         uint32_t colors[] = {0xFF0000, 0x00FF00, 0x0000FF, 0xFFFFFF};  // Red, Green, Blue, White
+//         int num_colors = sizeof(colors) / sizeof(colors[0]);
+//         for (int c = 0; c < num_colors; c++) {
+//             for (int i = 0; i < NUM_PIXELS; i++) {
+//                 led_buffer[i] = set_colour(colors[c], 0.8);
+//             }
+//             for (int i = 0; i < NUM_PIXELS; i++) {
+//                 pio_sm_put_blocking(pio, sm, led_buffer[i]);
+//             }
+//             sleep_ms(delay_ms);
+//         }
+//     }
+//     void test_each_led(PIO pio, uint sm, uint32_t color, int delay_ms) {
+//         for (int i = 0; i < NUM_PIXELS; i++) {
+//             for (int j = 0; j < NUM_PIXELS; j++) {
+//                 led_buffer[j] = (j == i) ? set_colour(color, 0.9) : 0x000000;
+//             }
+//             for (int j = 0; j < NUM_PIXELS; j++) {
+//                 pio_sm_put_blocking(pio, sm, led_buffer[j]);
+//             }
+//             sleep_ms(delay_ms);
+//         }
+//     }
     
 #pragma endregion
  
@@ -345,14 +377,6 @@ int wifi_init(){
 #define SIG_PIN2 27
 #define SIG_PIN3 26
 
-//Mux 1 [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
-//Mux 1 [F,Bb,Eb,Ab,C,F,Gb,B,E,A,Db,Gb,G,C,F,Bb]
-
-//Mux 2 [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
-//Mux 2 [D,G,Ab,Db,Gb,B,Eb,Ab,A,D,G,C,E,A,Bb,Eb]
-
-//Mux 3 [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
-//Mux 3 [Ab,Db,F,Bb,B,E,A,D,Gb,B,C,F,Bb,Eb,G,C]
 #define UNUSED_CHANNEL -1
 #pragma endregion
 
@@ -371,9 +395,102 @@ int wifi_init(){
 
 // Duration (in milliseconds) to hold a chord before considering it finalized
 #define CHORD_HOLD_TIME_MS 100  
+
+#define MAX_MUX_CHANNELS 3
+#define MAX_CHORD_CHANNELS 3  // Max number of channels per mux for a chord
+
 #pragma endregion
 
 #pragma region PS Variables
+
+typedef struct {
+    int mux_id;              // 0-indexed: MUX1 = 0, MUX2 = 1, etc.
+    int channels[MAX_CHORD_CHANNELS];
+    int num_channels;
+} MuxChannelGroup;
+
+typedef struct {
+    const char* name;
+    MuxChannelGroup mux_channels[MAX_MUX_CHANNELS];
+    int num_mux_groups;
+} Chord;
+
+// Chord Definitions
+Chord chord_A = {
+    "Ch-A",
+    {
+        {0, {8, 9, 10}, 3}
+    },
+    1
+};
+
+Chord chord_Am = {
+    "Ch-Am",
+    {
+        {0, {4, 8, 9}, 3}
+    },
+    1
+};
+
+Chord chord_C = {
+    "Ch-C",
+    {
+        {0, {4, 8, 13}, 3}
+    },
+    1
+};
+
+Chord chord_D = {
+    "Ch-D",
+    {
+        {0, {9, 11}, 2},
+        {1, {0}, 1}
+    },
+    2
+};
+
+Chord chord_Dm = {
+    "Ch-Dm",
+    {
+        {0, {5, 9}, 2},
+        {1, {0}, 1}
+    },
+    2
+};
+
+Chord chord_E = {
+    "Ch-E",
+    {
+        {0, {3, 7, 8}, 3}
+    },
+    1
+};
+
+Chord chord_Em = {
+    "Ch-Em",
+    {
+        {0, {7, 8}, 2}
+    },
+    1
+};
+
+Chord chord_G = {
+    "Ch-G",
+    {
+        {0, {7, 12}, 2},
+        {1, {0}, 1}
+    },
+    2
+};
+
+// Lookup table
+Chord* chord_library[] = {
+    &chord_A, &chord_Am, &chord_C, &chord_D,
+    &chord_Dm, &chord_E, &chord_Em, &chord_G
+};
+
+const int chord_library_size = sizeof(chord_library) / sizeof(chord_library[0]);
+
 // Mutex for safely accessing shared sensor state in multithreaded context
 static mutex_t sensor_mutex;
 
@@ -413,6 +530,8 @@ MuxConfig mux_configs[] = {
     {MUX2_S0_PIN, MUX2_S1_PIN, MUX2_S2_PIN, MUX2_S3_PIN, SIG_PIN2, 1}, // MUX2 feeds into ADC channel 1
     {MUX3_S0_PIN, MUX3_S1_PIN, MUX3_S2_PIN, MUX3_S3_PIN, SIG_PIN3, 0}  // MUX3 feeds into ADC channel 0
 };
+bool sensor_state[MAX_MUX_CHANNELS][MAX_CHANNELS] = {false};
+
 #pragma endregion
 
 #pragma region PS Methods
@@ -513,122 +632,60 @@ void process_sensor_buffer(){
         }
     }
 }
-#pragma endregion
- //***************************************DEMO STUFF*****************************************//
-// Define colors
-#define GREEN  0x00FF00
-#define YELLOW 0xFFFF00
-#define OFF    0x000000
-
-// PIO + state machine should be passed or set globally
-extern PIO pio;
-extern uint sm;
-
-typedef struct {
-    int mux;
-    int channel;
-    char* note;
-} NoteInstruction;
-
-// Define your demo notes as provided
-NoteInstruction demo_notes[] = {
-    {1, 0,  "F"},
-    {1, 12, "G"},
-    {1, 7,  "B"},
-    {1, 13, "C"},
-    {1, 8,  "E"},
-    {1, 14, "F"},
-    {1, 9,  "A"},
-    {1, 4,  "C"},
-    {2, 0,  "D"},
-    {1, 5,  "F"},
-    {2, 1,  "G"}
-};
-
-#define NUM_DEMO_NOTES (sizeof(demo_notes) / sizeof(demo_notes[0]))
-
-// Visual indication on LEDs for current and next note
-void indicate_note_colors(int current, int next) {
-    // Clear all first
-    for (int i = 0; i < NUM_PIXELS; i++) {
-        led_buffer[i] = 0x000000;
-    }
-
-    if (current >= 0 && current < NUM_DEMO_NOTES) {
-        int led_idx = get_led_index(demo_notes[current].mux, demo_notes[current].channel, -1);
-        printf("Current note %s → LED %d\n", demo_notes[current].note, led_idx);
-        led_buffer[led_idx] = set_colour(GREEN, 0.9);
-    }
-    if (next >= 0 && next < NUM_DEMO_NOTES) {
-        int led_idx = get_led_index(demo_notes[next].mux, demo_notes[next].channel, -1);
-        printf("Next note %s → LED %d\n", demo_notes[next].note, led_idx);
-        led_buffer[led_idx] = set_colour(YELLOW, 0.4);
-    }
-
-    // Now push the full buffer once
-    for (int i = 0; i < NUM_PIXELS; i++) {
-        pio_sm_put_blocking(pio, sm, led_buffer[i]);
-    }
-}
-
-
-// Check if correct note is pressed via ADC polling
-bool is_note_pressed(int mux, int channel) {
-    MuxConfig* current_mux = &mux_configs[mux - 1];  
-    select_mux_channel(current_mux, channel);
-    uint16_t value = get_adc_value(current_mux);
-    if(value>PRESSED_THRESHOLD){
-        printf("MUX %d Channel %d ADC value: %d\n", mux, channel, value);
-    }
-    return value > PRESSED_THRESHOLD;  // You should define PRESS_THRESHOLD appropriately
-}
-
-// Main demo loop function
-void Demo() {
-    printf("Starting Demo mode...\n");
-
-    for (int i = 0; i < NUM_DEMO_NOTES; i++) {
-        indicate_note_colors(i, i + 1);  // Show green/yellow for this round
-
-        bool played_correct_note = false;
-        while (!played_correct_note) {
-            if (is_note_pressed(demo_notes[i].mux, demo_notes[i].channel)) {
-                played_correct_note = true;
-
-                printf("Correct: Played %s (MUX %d, Channel %d)\n",
-                       demo_notes[i].note, demo_notes[i].mux, demo_notes[i].channel);
-
-                // Visual feedback: brief flash all LEDs blue on success (optional)
-                all_on(pio, sm);
-                sleep_ms(200);
-                clear_leds(pio, sm);
-                sleep_ms(100);
+bool is_chord_pressed_correctly(const Chord* chord, bool sensor_state[MAX_MUX_CHANNELS][MAX_CHANNELS]) {
+    for (int i = 0; i < chord->num_mux_groups; ++i) {
+        MuxChannelGroup group = chord->mux_channels[i];
+        for (int j = 0; j < group.num_channels; ++j) {
+            int ch = group.channels[j];
+            if (!sensor_state[group.mux_id][ch]) {
+                return false;  // Required channel not pressed
             }
-            sleep_ms(20);  // Debounce / polling interval
         }
     }
-
-    printf("Demo complete!\n");
-    all_on(pio, sm);  // Optional end feedback
+    return true;  // All required channels pressed
 }
+//Run this FOO once User selects "Learn Chords."
+void run_chord_learning_mode(void) {
+    
+    if (current_target_chord != NULL) {
+        //Debug
+        printf("Current TargetChord: %d == SensorState: %d",current_target_chord,sensor_state);
 
+        if (is_chord_pressed_correctly(current_target_chord, sensor_state)) {
+            printf("✅ Correct chord %s played!\n", current_target_chord->name);
 
-#pragma clientregion
-//***************************************Client Stuff***************************************//
-int get_index(int strip, int led){
-    return ((strip - 1)*6) + led;  // Calculate the LED index based on strip and LED number
+            // Advance to next chord
+            current_target_chord = get_next_target_chord();
+
+            if (current_target_chord != NULL) {
+                printf("🎯 Next target chord: %s\n", current_target_chord->name);
+            } else {
+                printf("🎉 All chords completed! Returning to menu...\n");
+            }
+        }
+    } else {
+        // Start chord learning sequence if not initialized
+        current_target_chord = get_next_target_chord();
+        if (current_target_chord != NULL) {
+            printf("🔰 Starting with chord: %s\n", current_target_chord->name);
+        }
+    }
 }
-#pragma endregion
+void update_sensor_state() {
+    for (int mux_idx = 0; mux_idx < MAX_MUX_CHANNELS; mux_idx++) {
+        MuxConfig* mux = &mux_configs[mux_idx];
+        adc_select_input(mux->adc_channel);
 
- //***************************************Other Stuff***************************************//
-// todo get free sm
-PIO pio;       // Global handle for the PIO (Programmable I/O) hardware block
-uint sm;       // State machine ID for PIO
-uint offset;   // Offset into the PIO program (not used in this snippet)
-
-// Multi-threaded function to be run on Core 1 of the Raspberry Pi Pico
-void core1_entry() {
-    // while (true) {  // Infinite loop for continuous background processing
+        for (int ch = 0; ch < MAX_CHANNELS; ch++) {
+            select_mux_channel(mux, ch);
+            uint16_t value = get_adc_value(mux);
+            sensor_state[mux_idx][ch] = value > PRESSED_THRESHOLD;
+            busy_wait_us_32(200);  // Optional: debounce delay
+        }
+    }
+}
+//OG Sensor FOO(){
+//// while (true) {  // Infinite loop for continuous background processing
     //     for (int i = 0; i < 3; i++) {  // Iterate over all three multiplexers
     //         MuxConfig* current_mux = &mux_configs[i];  // Pointer to current MUX config
     //         adc_select_input(current_mux->adc_channel);  // Set the ADC to read from this MUX’s signal line
@@ -657,6 +714,177 @@ void core1_entry() {
     //         }
     //     }
     // }
+#pragma endregion
+//***************************************DEMO STUFF*****************************************//
+#define TOTAL_MUXES 3
+#define TOTAL_CHANNELS 16
+bool was_pressed[TOTAL_MUXES][TOTAL_CHANNELS] = {false};
+// PIO + state machine should be passed or set globally
+extern PIO pio;
+extern uint sm;
+
+typedef struct {
+    int mux;
+    int channel;
+    char* note;
+} NoteInstruction;
+
+// Define your demo notes as provided
+NoteInstruction demo_notes[] = {
+    {1, 0,  "F"},
+    {1, 12, "G"},
+    {1, 7,  "B"},
+    {1, 13, "C"},
+    {1, 8,  "E"},
+    {1, 14, "F"},
+    {1, 9,  "A"},
+    {1, 4,  "C"},
+    {2, 0,  "D"},
+    {1, 5,  "F"},
+    {2, 1,  "G"}
+};
+
+#define NUM_DEMO_NOTES (sizeof(demo_notes) / sizeof(demo_notes[0]))
+
+// Sets current and next note colors
+void indicate_note_colors(int current, int next) {
+    for (int i = 0; i < NUM_PIXELS; i++) led_buffer[i] = OFF;
+
+    if (current >= 0 && current < NUM_DEMO_NOTES) {
+        int led_idx = get_led_index(demo_notes[current].mux, demo_notes[current].channel, -1);
+        led_buffer[led_idx] = set_colour(GREEN, 0.9);
+    }
+    if (next >= 0 && next < NUM_DEMO_NOTES) {
+        int led_idx = get_led_index(demo_notes[next].mux, demo_notes[next].channel, -1);
+        led_buffer[led_idx] = set_colour(YELLOW, 0.4);
+    }
+
+    for (int i = 0; i < NUM_PIXELS; i++) {
+        pio_sm_put_blocking(pio, sm, led_buffer[i]);
+    }
+}
+
+// Debounced and smoothed ADC read
+uint16_t stable_adc_read(MuxConfig* mux, int channel) {
+    select_mux_channel(mux, channel);
+    uint32_t total = 0;
+    for (int i = 0; i < 3; i++) {
+        total += get_adc_value(mux);
+        sleep_ms(1);
+    }
+    return total / 3;
+}
+// Check if correct note is pressed via ADC polling
+bool is_note_pressed(int mux, int channel) {
+    MuxConfig* current_mux = &mux_configs[mux - 1];  
+    select_mux_channel(current_mux, channel);
+    uint16_t value = get_adc_value(current_mux);
+    if(value>PRESSED_THRESHOLD){
+        printf("MUX %d Channel %d ADC value: %d\n", mux, channel, value);
+    }
+    return value > PRESSED_THRESHOLD;  // You should define PRESS_THRESHOLD appropriately
+}
+
+void Demo() {
+    printf("Starting Demo mode...\n");
+
+    int current_index = 0;
+    uint64_t last_adc_zero_time = 0;
+
+    while (current_index < NUM_DEMO_NOTES) {
+        NoteInstruction current_note = demo_notes[current_index];
+        NoteInstruction next_note = (current_index + 1 < NUM_DEMO_NOTES) ? demo_notes[current_index + 1] : (NoteInstruction){-1, -1, ""};
+
+        indicate_note_colors(current_index, current_index + 1);  // ✅ Show current only when ready
+
+        bool note_detected = false;
+
+        while (!note_detected) {
+            for (int m = 0; m < 3; m++) {
+                MuxConfig* current_mux = &mux_configs[m];
+                adc_select_input(current_mux->adc_channel);
+
+                for (int ch = 0; ch < MAX_CHANNELS; ch++) {
+                    select_mux_channel(current_mux, ch);
+                    sleep_ms(5);  // Debounce
+
+                    if (active_mux != -1) {
+                        printf("Detected press: MUX %d, CH %d\n", active_mux + 1, ch);
+                        update_sensor_buffer(ch);
+
+                        if ((active_mux + 1) == current_note.mux +1 && ch == current_note.channel) {
+                            printf("✅ Correct note %s pressed\n", current_note.note);
+                            //Debugging:
+                            printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux+1);
+                            printf("Channel: %d == current Mux: %d\n",ch,current_note.mux+1);
+                            int led_idx = get_led_index(current_note.mux, current_note.channel, -1);
+                            printf("LED index: %d", led_idx);
+                            led_buffer[led_idx] = set_colour(BLUE, 1.0);
+                            for (int l = 0; l < NUM_PIXELS; l++) {
+                                pio_sm_put_blocking(pio, sm, led_buffer[l]);
+                            }
+                            sleep_ms(200);
+                            clear_leds(pio, sm);
+                            note_detected = true;
+
+                        } else {
+                            printf("❌ Incorrect press at MUX %d, CH %d\n", active_mux + 1, ch);
+                            //Debugging
+                            printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux+1);
+                            printf("Channel: %d == current Mux: %d\n",ch,current_note.mux+1);
+                            int led_idx = get_led_index(active_mux + 1, ch, -1);
+                            //Debugging
+                            printf("LED index: %d", led_idx);
+                            led_buffer[led_idx] = set_colour(RED, 1.0);
+                            for (int l = 0; l < NUM_PIXELS; l++) {
+                                pio_sm_put_blocking(pio, sm, led_buffer[l]);
+                            }
+                            sleep_ms(200);
+                            indicate_note_colors(current_index, current_index + 1);  // Restore proper current display
+                        }
+
+                        active_mux = -1;  // Clear press flag
+                    }
+                }
+
+                // Wait for release
+                if (active_mux == -1) {
+                    if (last_adc_zero_time == 0) {
+                        last_adc_zero_time = to_ms_since_boot(get_absolute_time());
+                    } else if (to_ms_since_boot(get_absolute_time()) - last_adc_zero_time >= 600 && note_detected) {
+                        process_sensor_buffer();
+                        last_adc_zero_time = 0;
+                        current_index++;  // ✅ Only increment when correct press was confirmed
+                        break;  // Exit MUX/channel loop
+                    }
+                } else {
+                    last_adc_zero_time = 0;  // Still active, reset
+                }
+            }
+
+            sleep_ms(5);  // Global debounce
+        }
+    }
+
+    printf("🎵 Demo complete!\n");
+}
+
+#pragma clientregion
+//***************************************Client Stuff***************************************//
+int get_index(int strip, int led){
+    return ((strip - 1)*6) + led;  // Calculate the LED index based on strip and LED number
+}
+#pragma endregion
+
+ //***************************************Other Stuff***************************************//
+// todo get free sm
+PIO pio;       // Global handle for the PIO (Programmable I/O) hardware block
+uint sm;       // State machine ID for PIO
+uint offset;   // Offset into the PIO program (not used in this snippet)
+
+// Multi-threaded function to be run on Core 1 of the Raspberry Pi Pico
+void core1_entry() {
+    
     Demo();
 }
 int main() {
@@ -691,13 +919,8 @@ int main() {
         uint32_t colouroff = 0x000000;  // LED off
 
         // Select a random LED to be targeted initially
-        led_index = rand() % ((NUM_PIXELS - 1) - 0 + 1) + 0;  // Random index from 0 to NUM_PIXELS-1
-        printf("LED INDEX: %d\n", led_index);
-
-        // Optionally set an LED here, currently done through sequence logic
-        //set_leds_in_sequence(led_sequence, pio, sm);  // Light up initial sequence
-        //all_on(pio, sm);  // Turn on all LEDs for testing
-        //test_all_colors(pio, sm, 1000);  // 1s delay per color pass
+        // led_index = rand() % ((NUM_PIXELS - 1) - 0 + 1) + 0;  // Random index from 0 to NUM_PIXELS-1
+        // printf("LED INDEX: %d\n", led_index);
 
     #pragma endregion
 
@@ -711,19 +934,13 @@ int main() {
     #pragma endregion
 
     //***************************************Integration***************************************//
-    printf("starting\n");
-    led_index = get_index(rand() % 3 + 1, rand() % 6 + 1);  // Randomly select a LED index for the sequence for testing purposes, ideally we want to use get_index on json data
+    // printf("starting\n");
+    // led_index = get_index(rand() % 3 + 1, rand() % 6 + 1);  // Randomly select a LED index for the sequence for testing purposes, ideally we want to use get_index on json data
 
     // Wait until USB serial is connected (optional, useful for debugging)
     while (!stdio_usb_connected) {
         sleep_ms(100);  // Polling every 100 ms
     }
-    //all_on(pio, sm);  // Turn on all LEDs for testing
-    //test_all_colors(pio, sm, 1000);  // 1s delay per color pass
-    while(true){
-        //test_each_led(pio, sm, 0xFFFFFF, 100);  // White flash per LED, 100ms per LED
-    }
-
     // Clean up: unload the WS2812 program and free associated resources (unlikely to be reached)
     pio_remove_program_and_unclaim_sm(&ws2812_program, pio, sm, offset);
 }

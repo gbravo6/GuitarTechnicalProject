@@ -1,14 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj": {}
+    "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj": {
+    "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj": {
       "restore": {
-        "projectUniqueName": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj",
+        "projectUniqueName": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj",
         "projectName": "GDA_Server_Form",
-        "projectPath": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj",
+        "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj",
+        "UsingMicrosoftNETSdk": false,
         "frameworks": {
           "net48": {
             "projectReferences": {}
@@ -19,17 +20,21 @@
         "net48": {}
       }
     },
-    "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj": {
+    "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
+        "projectUniqueName": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
         "projectName": "GuitarDesktopApp",
-        "projectPath": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
-        "packagesPath": "C:\\Users\\gBrav\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\obj\\",
+        "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\gBrav\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -37,15 +42,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows7.0",
             "projectReferences": {
-              "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj": {
-                "projectPath": "C:\\Users\\gBrav\\OneDrive\\Documents\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj"
+              "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj": {
+                "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj"
               }
             }
           }
@@ -59,7 +63,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0-windows7.0": {
@@ -89,7 +94,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
