@@ -70,23 +70,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {},
+    "C:\\Users\\Griffin\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
+      "projectUniqueName": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
       "projectName": "GuitarDesktopApp",
-      "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
-      "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\obj\\",
+      "projectPath": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\GuitarDesktopApp.csproj",
+      "packagesPath": "C:\\Users\\Griffin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Griffin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -101,8 +101,8 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows7.0",
           "projectReferences": {
-            "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj": {
-              "projectPath": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj"
+            "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj": {
+              "projectPath": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GDA_Server_Form\\GDA_Server_Form.csproj"
             }
           }
         }

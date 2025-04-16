@@ -1,37 +1,49 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\",
+  "WorkspaceRootPath": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\administrator\\documents\\github\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\chords.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:pages\\chords.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\griffin\\documents\\cnt folders\\term 5\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\page1.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:pages\\page1.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\administrator\\documents\\github\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\scales.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:pages\\scales.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\administrator\\documents\\github\\guitartechnicalproject\\src\\guitardesktopapp\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{35A04773-B80F-459B-9981-BAFC83272E41}|..\\GDA_Server_Form\\GDA_Server_Form.csproj|c:\\users\\administrator\\documents\\github\\guitartechnicalproject\\src\\gda_server_form\\serverform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\administrator\\documents\\github\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\page1.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\griffin\\documents\\cnt folders\\term 5\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\page1.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:pages\\page1.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\administrator\\documents\\github\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\howtoreadchord.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\griffin\\documents\\cnt folders\\term 5\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\chords.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:pages\\chords.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\griffin\\documents\\cnt folders\\term 5\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\scales.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:pages\\scales.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\griffin\\documents\\cnt folders\\term 5\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\chords.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:pages\\chords.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\griffin\\documents\\cnt folders\\term 5\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\scales.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:pages\\scales.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\griffin\\documents\\cnt folders\\term 5\\guitartechnicalproject\\src\\guitardesktopapp\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\griffin\\documents\\cnt folders\\term 5\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\howtoreadchord.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:pages\\howtoreadchord.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\administrator\\documents\\github\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\griffin\\documents\\cnt folders\\term 5\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:pages\\login.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\administrator\\documents\\github\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\howtoreadchord.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "AbsoluteMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|c:\\users\\griffin\\documents\\cnt folders\\term 5\\guitartechnicalproject\\src\\guitardesktopapp\\pages\\howtoreadchord.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
       "RelativeMoniker": "D:0:0:{D3E3B556-AEC6-463F-9D6C-6D1957DC7357}|GuitarDesktopApp.csproj|solutionrelative:pages\\howtoreadchord.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\ServerForm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -41,7 +53,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -49,49 +61,50 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ServerForm.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\ServerForm.cs",
-              "RelativeDocumentMoniker": "..\\GDA_Server_Form\\ServerForm.cs",
-              "ToolTip": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\ServerForm.cs",
-              "RelativeToolTip": "..\\GDA_Server_Form\\ServerForm.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Page1.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Page1.xaml.cs",
+              "RelativeDocumentMoniker": "Pages\\Page1.xaml.cs",
+              "ToolTip": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Page1.xaml.cs",
+              "RelativeToolTip": "Pages\\Page1.xaml.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACcAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-15T00:44:51.619Z",
+              "WhenOpened": "2025-04-16T04:40:31.908Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Scales.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Scales.xaml.cs",
+              "RelativeDocumentMoniker": "Pages\\Scales.xaml.cs",
+              "ToolTip": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Scales.xaml.cs",
+              "RelativeToolTip": "Pages\\Scales.xaml.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAIwCQAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-16T04:38:58.692Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\MainWindow.xaml.cs",
-              "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "Chords.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Chords.xaml.cs",
+              "RelativeDocumentMoniker": "Pages\\Chords.xaml.cs",
+              "ToolTip": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Chords.xaml.cs",
+              "RelativeToolTip": "Pages\\Chords.xaml.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAUwEkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-15T00:42:55.99Z",
+              "WhenOpened": "2025-04-16T04:28:13.618Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Scales.xaml",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Scales.xaml",
-              "RelativeDocumentMoniker": "Pages\\Scales.xaml",
-              "ToolTip": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Scales.xaml",
-              "RelativeToolTip": "Pages\\Scales.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-04-14T22:54:31.779Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Chords.xaml",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Chords.xaml",
+              "DocumentMoniker": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Chords.xaml",
               "RelativeDocumentMoniker": "Pages\\Chords.xaml",
-              "ToolTip": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Chords.xaml",
+              "ToolTip": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Chords.xaml",
               "RelativeToolTip": "Pages\\Chords.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-04-14T22:52:56.046Z",
@@ -99,11 +112,48 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
+              "Title": "ServerForm.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\ServerForm.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\ServerForm.cs",
+              "ToolTip": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\ServerForm.cs",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GDA_Server_Form\\ServerForm.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-15T00:44:51.619Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\MainWindow.xaml.cs",
+              "RelativeToolTip": "MainWindow.xaml.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-15T00:42:55.99Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Scales.xaml",
+              "DocumentMoniker": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Scales.xaml",
+              "RelativeDocumentMoniker": "Pages\\Scales.xaml",
+              "ToolTip": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Scales.xaml",
+              "RelativeToolTip": "Pages\\Scales.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-04-14T22:54:31.779Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Page1.xaml",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Page1.xaml",
+              "DocumentMoniker": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Page1.xaml",
               "RelativeDocumentMoniker": "Pages\\Page1.xaml",
-              "ToolTip": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Page1.xaml",
+              "ToolTip": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Page1.xaml",
               "RelativeToolTip": "Pages\\Page1.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-03-21T16:55:09.89Z",
@@ -111,40 +161,37 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Login.xaml",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Login.xaml",
+              "DocumentMoniker": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Login.xaml",
               "RelativeDocumentMoniker": "Pages\\Login.xaml",
-              "ToolTip": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Login.xaml",
+              "ToolTip": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\Login.xaml",
               "RelativeToolTip": "Pages\\Login.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-04-14T18:41:39.409Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "HowToReadChord.xaml",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\HowToReadChord.xaml",
-              "RelativeDocumentMoniker": "Pages\\HowToReadChord.xaml",
-              "ToolTip": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\HowToReadChord.xaml",
-              "RelativeToolTip": "Pages\\HowToReadChord.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-03-19T20:51:32.449Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-14T18:41:39.409Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
+              "Title": "HowToReadChord.xaml",
+              "DocumentMoniker": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\HowToReadChord.xaml",
+              "RelativeDocumentMoniker": "Pages\\HowToReadChord.xaml",
+              "ToolTip": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\HowToReadChord.xaml",
+              "RelativeToolTip": "Pages\\HowToReadChord.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-03-19T20:51:32.449Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "HowToReadChord.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\HowToReadChord.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\HowToReadChord.xaml.cs",
               "RelativeDocumentMoniker": "Pages\\HowToReadChord.xaml.cs",
-              "ToolTip": "C:\\Users\\Administrator\\Documents\\GitHub\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\HowToReadChord.xaml.cs",
+              "ToolTip": "C:\\Users\\Griffin\\Documents\\CNT FOLDERS\\term 5\\GuitarTechnicalProject\\src\\GuitarDesktopApp\\Pages\\HowToReadChord.xaml.cs",
               "RelativeToolTip": "Pages\\HowToReadChord.xaml.cs",
               "ViewState": "AgIAABUAAAAAAAAAAADwvyAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-19T20:51:35.305Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-19T20:51:35.305Z"
             }
           ]
         }

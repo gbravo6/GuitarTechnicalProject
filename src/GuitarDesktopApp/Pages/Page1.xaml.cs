@@ -37,6 +37,8 @@ namespace GuitarDesktopApp
 
         private void UI_Chord_Btn_Click(object sender, RoutedEventArgs e)
         {
+            byte[] sendBuffer = Encoding.UTF8.GetBytes("Chords");
+            mainWin.udpClient.Send(sendBuffer, sendBuffer.Length);
             NavigationService.Navigate(new Chords(mainWin));
         }
 
@@ -63,7 +65,9 @@ namespace GuitarDesktopApp
 
         private void UI_Scales_Btn_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Scales());
+            byte[] sendBuffer = Encoding.UTF8.GetBytes("Scales");
+            mainWin.udpClient.Send(sendBuffer, sendBuffer.Length);
+            NavigationService.Navigate(new Scales(mainWin));
         }
 
         private void StartServer()

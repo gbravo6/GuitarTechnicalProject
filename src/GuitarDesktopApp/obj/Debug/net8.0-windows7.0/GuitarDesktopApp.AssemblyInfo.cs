@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GuitarDesktopApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ff73ba5bcc50e4aaa03af76a056d31b38edc9b85")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+35d88e580124227af394870aa19479ea76abea6a")]
 [assembly: System.Reflection.AssemblyProductAttribute("GuitarDesktopApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GuitarDesktopApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

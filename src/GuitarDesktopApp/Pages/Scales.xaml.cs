@@ -20,14 +20,21 @@ namespace GuitarDesktopApp.Pages
     /// </summary>
     public partial class Scales : Page
     {
-        public Scales()
+        MainWindow mainWin = null;
+        public Scales(MainWindow mW)
         {
             InitializeComponent();
+            mainWin = mW;
         }
 
         private void UI_Home_Btn_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
+        }
+
+        private void em_pentatonic_click(object sender, RoutedEventArgs e)
+        {
+            mainWin.udpClient.SendAsync(Encoding.UTF8.GetBytes("Sc-Em"));
         }
     }
 }

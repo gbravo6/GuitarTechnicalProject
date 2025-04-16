@@ -19,31 +19,31 @@
             <Image Source="/ChordImages/a-chord.jpg" Stretch="Fill" />
         </Button>
         <Button Name="Am_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
-                Margin="170,100,0,0" Background="White">
+                Margin="170,100,0,0" Background="White" Click="Am_btn_Clicked">
             <Image Source="/ChordImages/am-chord-diagram-823x1024.png" Stretch="Fill" />    
         </Button>
         <Button Name="C_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
-        Margin="290,100,0,0" Background="White">
+        Margin="290,100,0,0" Background="White" Click="C_btn_Click">
             <Image Source="/ChordImages/c-chord-diagram.png" Stretch="Fill" />
         </Button>
         <Button Name="D_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
-        Margin="410,100,0,0" Background="White">
+        Margin="410,100,0,0" Background="White" Click="D_btn_Click">
             <Image Source="/ChordImages/d-chord.png" Stretch="Fill" />
         </Button>
         <Button Name="Dm_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
-        Margin="530,100,0,0" Background="White">
+        Margin="530,100,0,0" Background="White" Click="Dm_btn_Click">
             <Image Source="/ChordImages/dm-chord.jpg" Stretch="Fill" />
         </Button>
         <Button Name="e_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
-        Margin="650,100,0,0" Background="White">
+        Margin="650,100,0,0" Background="White" Click="e_btn_Click">
             <Image Source="/ChordImages/e-chord.jpg" Stretch="Fill" />
         </Button>
         <Button Name="em_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
-        Margin="50,250,0,0" Background="White">
+        Margin="50,250,0,0" Background="White" Click="em_btn_click">
             <Image Source="/ChordImages/em-chord-diagram-823x1024.png" Stretch="Fill" />
         </Button>
         <Button Name="g_btn" Width="100" Height="120" VerticalAlignment="Top" HorizontalAlignment="Left"
-        Margin="170,250,0,0" Background="White">
+        Margin="170,250,0,0" Background="White" Click="g_btn_click">
             <Image Source="/ChordImages/g-chord-diagram.png" Stretch="Fill" />
         </Button>
 
