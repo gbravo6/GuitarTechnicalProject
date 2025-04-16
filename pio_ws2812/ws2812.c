@@ -23,8 +23,8 @@
 
  //*****************************************WIFI/UDP*****************************************//
  #pragma region Wifi Defines
- #define WIFI_NAME "HotspotTest"
- #define PASSWORD  "1234678"
+ #define WIFI_NAME "JennyTalls"
+ #define PASSWORD  "test12345"
  #define UDP_PORT 1666
  #define PC_IP "" //define on testing
  #pragma endregion
@@ -668,7 +668,7 @@ void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_a
     strncpy(buffer, pData, sizeof(buffer) - 1);
 
     // Clean up buffer
-    char *pos = strchr(buffer, '}');
+    char *pos = strchr(buffer, '.');
     if (pos != NULL) *(pos + 1) = '\0';
 
     printf("Received Chord Request: %s\n", buffer);
@@ -700,28 +700,28 @@ void udp_begin_receiving()
     udp_recv(listener, receive_callback, NULL);
 }
 
-// int wifi_init(){
-//     // Initialise the Wi-Fi chip
-//     if (cyw43_arch_init()) {
-//         printf("Wi-Fi init failed\n");
-//         return -1;
-//     }
+int wifi_init(){
+    // Initialise the Wi-Fi chip
+    if (cyw43_arch_init()) {
+        printf("Wi-Fi init failed\n");
+        return -1;
+    }
 
-//     // Enable wifi station
-//     cyw43_arch_enable_sta_mode();
+    // Enable wifi station
+    cyw43_arch_enable_sta_mode();
 
-//     //  Connect to Wifi
-//     printf("Connecting to Wi-Fi...\n");
-//     if (cyw43_arch_wifi_connect_timeout_ms(WIFI_NAME, PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
-//         printf("failed to connect.\n");
-//         return 1;
-//     } else {
-//         printf("Connected.\n");
-//         // Read the ip address in a human readable way
-//         uint8_t *ip_address = (uint8_t*)&(cyw43_state.netif[0].ip_addr.addr);
-//         printf("IP address %d.%d.%d.%d\n", ip_address[0], ip_address[1], ip_address[2], ip_address[3]);
-//     }
-// }
+    //  Connect to Wifi
+    printf("Connecting to Wi-Fi...\n");
+    if (cyw43_arch_wifi_connect_timeout_ms(WIFI_NAME, PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
+        printf("failed to connect.\n");
+        return 1;
+    } else {
+        printf("Connected.\n");
+        // Read the ip address in a human readable way
+        uint8_t *ip_address = (uint8_t*)&(cyw43_state.netif[0].ip_addr.addr);
+        printf("IP address %d.%d.%d.%d\n", ip_address[0], ip_address[1], ip_address[2], ip_address[3]);
+    }
+}
  #pragma endregion
 //***************************************DEMO STUFF*****************************************//
 #define TOTAL_MUXES 3
@@ -823,8 +823,8 @@ void Demo() {
                         if ((active_mux + 1) == current_note.mux && ch == current_note.channel) {
                             printf("✅ Correct note %s pressed\n", current_note.note);
                             //Debugging:
-                            printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux+1);
-                            printf("Channel: %d == current Mux: %d\n",ch,current_note.mux+1);
+                            printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux);
+                            printf("Channel: %d == current channel: %d\n",ch,current_note.channel);
                             int led_idx = get_led_index(current_note.mux, current_note.channel, -1);
                             printf("LED index: %d", led_idx);
                             led_buffer[led_idx] = set_colour(BLUE, 1.0);
@@ -838,8 +838,8 @@ void Demo() {
                         } else {
                             printf("❌ Incorrect press at MUX %d, CH %d\n", active_mux + 1, ch);
                             //Debugging
-                            printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux+1);
-                            printf("Channel: %d == current Mux: %d\n",ch,current_note.mux+1);
+                            printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux);
+                            printf("Channel: %d == current Mux: %d\n",ch,current_note.channel);
                             int led_idx = get_led_index(active_mux + 1, ch, -1);
                             //Debugging
                             printf("LED index: %d", led_idx);
