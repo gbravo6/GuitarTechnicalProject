@@ -185,7 +185,7 @@
     }
     void all_on(PIO pio, uint sm){
         for (int i = 0; i < NUM_PIXELS; i++) {
-            led_buffer[i] = set_colour(BLUE,0.95);
+            led_buffer[i] = set_colour(GREEN,0.95);
         }
         for(int i=0; i<NUM_PIXELS; i++) {
             pio_sm_put_blocking(pio, sm, led_buffer[i]);
@@ -669,7 +669,7 @@ void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_a
 
     // Clean up buffer
     char *pos = strchr(buffer, '.');
-    if (pos != NULL) *(pos + 1) = '\0';
+    if (pos != NULL) *(pos) = '\0';
 
     printf("Received Chord Request: %s\n", buffer);
 
@@ -689,7 +689,6 @@ void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_a
 
     pbuf_free(p);
 }
-
 void udp_begin_receiving()
 {
     //create new udp listener
@@ -877,6 +876,88 @@ void Demo() {
     printf("🎵 Demo complete!\n");
 }
 
+void Test(){
+    printf("Starting Test mode...\n");
+
+    int current_index = 0;
+    uint64_t last_adc_zero_time = 0;
+
+    while (current_index < NUM_DEMO_NOTES) {
+        NoteInstruction current_note = demo_notes[current_index];
+        NoteInstruction next_note = (current_index + 1 < NUM_DEMO_NOTES) ? demo_notes[current_index + 1] : (NoteInstruction){-1, -1, ""};
+
+        indicate_note_colors(current_index, current_index + 1);  // ✅ Show current only when ready
+
+        bool note_detected = false;
+
+        while (!note_detected) {
+            for (int m = 0; m < 3; m++) {
+                MuxConfig* current_mux = &mux_configs[m];
+                adc_select_input(current_mux->adc_channel);
+
+                for (int ch = 0; ch < MAX_CHANNELS; ch++) {
+                    select_mux_channel(current_mux, ch);
+                    sleep_ms(5);  // Debounce
+
+                    if (active_mux != -1) {
+                        printf("Detected press: MUX %d, CH %d\n", active_mux + 1, ch);
+                        update_sensor_buffer(ch);
+
+                        if ((active_mux + 1) == current_note.mux && ch == current_note.channel) {
+                            printf("✅ Correct note %s pressed\n", current_note.note);
+                            //Debugging:
+                            printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux);
+                            printf("Channel: %d == current channel: %d\n",ch,current_note.channel);
+                            int led_idx = get_led_index(current_note.mux, current_note.channel, -1);
+                            printf("LED index: %d", led_idx);
+                            led_buffer[led_idx] = set_colour(BLUE, 1.0);
+                            for (int l = 0; l < NUM_PIXELS; l++) {
+                                pio_sm_put_blocking(pio, sm, led_buffer[l]);
+                            }
+                            sleep_ms(200);
+                            clear_leds(pio, sm);
+                            note_detected = true;
+
+                        } else {
+                            printf("❌ Incorrect press at MUX %d, CH %d\n", active_mux + 1, ch);
+                            //Debugging
+                            printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux);
+                            printf("Channel: %d == current Mux: %d\n",ch,current_note.channel);
+                            int led_idx = get_led_index(active_mux + 1, ch, -1);
+                            //Debugging
+                            printf("LED index: %d", led_idx);
+                            led_buffer[led_idx] = set_colour(RED, 1.0);
+                            for (int l = 0; l < NUM_PIXELS; l++) {
+                                pio_sm_put_blocking(pio, sm, led_buffer[l]);
+                            }
+                            sleep_ms(200);
+                            indicate_note_colors(current_index, current_index + 1);  // Restore proper current display
+                        }
+
+                        active_mux = -1;  // Clear press flag
+                    }
+                }
+
+                // Wait for release
+                if (active_mux == -1) {
+                    if (last_adc_zero_time == 0) {
+                        last_adc_zero_time = to_ms_since_boot(get_absolute_time());
+                    } else if (to_ms_since_boot(get_absolute_time()) - last_adc_zero_time >= 600 && note_detected) {
+                        process_sensor_buffer();
+                        last_adc_zero_time = 0;
+                        current_index++;  // ✅ Only increment when correct press was confirmed
+                        break;  // Exit MUX/channel loop
+                    }
+                } else {
+                    last_adc_zero_time = 0;  // Still active, reset
+                }
+            }
+
+            sleep_ms(5);  // Global debounce
+        }
+    }
+    printf("🎵 Demo complete!\n");
+}
 #pragma clientregion
 //***************************************Client Stuff***************************************//
 int get_index(int strip, int led){
@@ -892,17 +973,17 @@ uint offset;   // Offset into the PIO program (not used in this snippet)
 
 // Multi-threaded function to be run on Core 1 of the Raspberry Pi Pico
 void core1_entry() {
-    
-    Demo();
+    // Demo();
+    Test();
 }
 int main() {
     stdio_init_all();  // Initialize all standard IO, including USB serial if connected
     while (!stdio_usb_connected) {
         sleep_ms(100);  // Polling every 100 ms
     }
-    // wifi_init(); //initialize wifi connection with blocking 
+    wifi_init(); //initialize wifi connection with blocking 
 
-    // udp_begin_receiving(); //begin udp receiving
+    udp_begin_receiving(); //begin udp receiving
     //***************************************LED Init***************************************//
     #pragma region LED INIT
         // Unload any existing WS2812 (NeoPixel) PIO program and free its state machine
