@@ -29,21 +29,25 @@
  #define PC_IP "" //define on testing
  #pragma endregion
  
+#pragma region Bools
+bool chord_match = false; // Flag to indicate if a chord is pressed
+bool played = false;  // Flag used to track whether a certain action has been played
+#pragma endregion
 
- //****************************************LED  Stuff****************************************//
- /**
-  * NOTE:
-  *  Take into consideration if your WS2812 is a RGB or RGBW variant.
-  *
-  *  If it is RGBW, you need to set IS_RGBW to true and provide 4 bytes per 
-  *  pixel (Red, Green, Blue, White) and use urgbw_u32().
-  *
-  *  If it is RGB, set IS_RGBW to false and provide 3 bytes per pixel (Red,
-  *  Green, Blue) and use urgb_u32().
-  *
-  *  When RGBW is used with urgb_u32(), the White channel will be ignored (off).
-  *
-  */
+//****************************************LED  Stuff****************************************//
+/**
+ * NOTE:
+ *  Take into consideration if your WS2812 is a RGB or RGBW variant.
+ *
+ *  If it is RGBW, you need to set IS_RGBW to true and provide 4 bytes per 
+ *  pixel (Red, Green, Blue, White) and use urgbw_u32().
+ *
+ *  If it is RGB, set IS_RGBW to false and provide 3 bytes per pixel (Red,
+ *  Green, Blue) and use urgb_u32().
+ *
+ *  When RGBW is used with urgb_u32(), the White channel will be ignored (off).
+ *
+ */
  #define IS_RGBW false   // set to true if using RGBW WS2812
  #define NUM_PIXELS 48 // number of pixels in the strip
  
@@ -66,9 +70,6 @@
 
  // Flag indicating whether the timer is ready to trigger actions
  bool timer_ready = false;
-
- // Flag used to track whether a certain action has been played
- bool played = false;
 
  // Index for current LED being processed
  int led_index = 0;
@@ -98,7 +99,7 @@
  typedef struct{
      unsigned int first;
      unsigned int second;
-     unsigned int third;
+     int third;
  } Sequence;
 
  // Default LED sequence (indices 0, 1, 2)
@@ -677,16 +678,21 @@ void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_a
     current_target_chord = NULL;
     for (int i = 0; i < chord_library_size; ++i) {
         if (strcmp(buffer, chord_library[i]->name) == 0) {
-            current_target_chord = chord_library[i];
             printf("Chord matched: %s\n", current_target_chord->name);
+            chord_match = true;  // Set the chord match flag
+            if(chord_match){
+                if(!played){
+                    current_target_chord = chord_library[i];
+                    printf("🎯 Target chord: %s\n", current_target_chord->name);
+                }
+            }
             break;
         }
     }
-
     if (current_target_chord == NULL) {
         printf("No matching chord found.\n");
+        chord_match = false;  // Reset the chord match flag
     }
-
     pbuf_free(p);
 }
 void udp_begin_receiving()
