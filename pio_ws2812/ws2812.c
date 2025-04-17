@@ -576,6 +576,14 @@ bool is_chord_pressed_correctly(const Chord* chord, bool sensor_state[MAX_MUX_CH
     }
     return true;  // All required channels pressed
 }
+bool are_all_sensors_released(bool sensor_state[MAX_MUX_CHANNELS][MAX_CHANNELS]) {
+    for (int mux = 0; mux < MAX_MUX_CHANNELS; ++mux) {
+        for (int ch = 0; ch < MAX_CHANNELS; ++ch) {
+            if (sensor_state[mux][ch]) return false;
+        }
+    }
+    return true;
+}
 
 Chord* current_target_chord = NULL;
 
@@ -608,16 +616,37 @@ Chord* current_target_chord = NULL;
 void run_chord_learning_mode(void) {
     printf("🔰 Learning chord: %s\n", current_target_chord->name);
 
+    bool chord_detected = false;
+    uint64_t last_release_time = 0;
+    const uint64_t RELEASE_HOLD_MS = 600; // How long to wait for release
+
     while (1) {
-        update_sensor_state(); // Make sure sensor_state is updated
-        if (is_chord_pressed_correctly(current_target_chord, sensor_state)) {
-            printf("✅ Correct chord %s played!\n", current_target_chord->name);
-            break; // Exit after correct play
+        update_sensor_state();
+
+        if (!chord_detected) {
+            // Wait for correct chord to be pressed
+            if (is_chord_pressed_correctly(current_target_chord, sensor_state)) {
+                printf("✅ Correct chord %s pressed! Now release...\n", current_target_chord->name);
+                chord_detected = true;
+                last_release_time = 0; // Reset release timer
+            }
+        } else {
+            // Wait for all sensors to be released
+            if (are_all_sensors_released(sensor_state)) {
+                if (last_release_time == 0) {
+                    last_release_time = to_ms_since_boot(get_absolute_time());
+                } else if (to_ms_since_boot(get_absolute_time()) - last_release_time >= RELEASE_HOLD_MS) {
+                    printf("🎉 Chord learning for %s complete!\n", current_target_chord->name);
+                    break; // Success! Exit loop
+                }
+            } else {
+                last_release_time = 0; // Still pressed, reset timer
+            }
         }
-        sleep_ms(50); // Polling interval
+        sleep_ms(10); // Polling interval
     }
-    printf("🎉 Chord learning for %s complete!\n", current_target_chord->name);
 }
+
 
 void update_sensor_state() {
     for (int mux_idx = 0; mux_idx < MAX_MUX_CHANNELS; mux_idx++) {
