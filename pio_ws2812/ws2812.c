@@ -85,6 +85,11 @@ bool played = false;  // Flag used to track whether a certain action has been pl
  // Index used for sensor-related logic (implementation not shown here)
  int sensor_index = 0;
  
+ // todo get free sm
+PIO pio;       // Global handle for the PIO (Programmable I/O) hardware block
+uint sm;       // State machine ID for PIO
+uint offset;   // Offset into the PIO program (not used in this snippet)
+
  // Predefined color values in RGB hex format
  #define GREEN 0xff00
  #define WHITE 0xFFFFFF
@@ -207,16 +212,19 @@ bool played = false;  // Flag used to track whether a certain action has been pl
         }
 
         // Bright blue for the most recent index
-        led_buffer[s.first] = set_colour(BLUE,0.95);
+        led_buffer[s.first] = set_colour(GREEN,0.75);
 
         // Purple for the second most recent, only if different from the first
         if (s.second != s.first) {
-            led_buffer[s.second] = set_colour(PURPLE,0.35);
+            led_buffer[s.second] = set_colour(GREEN,0.75);
         }
 
         // Dim white for the oldest in the sequence if distinct
-        if (s.third != s.second && s.third != s.first) {
-            led_buffer[s.third] = set_colour(WHITE,0.09);
+        if(s.third != -1 && s.third > -1){
+
+            if (s.third != s.second && s.third != s.first) {
+                led_buffer[s.third] = set_colour(GREEN,0.75);
+            }
         }
 
         // Write all buffer values to the strip
@@ -237,13 +245,13 @@ bool played = false;  // Flag used to track whether a certain action has been pl
             played = false;
         else
             played = true;
-        if(mx == 1){
+        if(mx == 0){
             return ch;;
         }
-        if(mx == 2){
+        if(mx == 1){
             return ch + 16;
         }
-        if(mx == 3){
+        if(mx == 2){
             return ch + 32;
         }
     }
@@ -587,35 +595,39 @@ bool are_all_sensors_released(bool sensor_state[MAX_MUX_CHANNELS][MAX_CHANNELS])
 
 Chord* current_target_chord = NULL;
 
+void update_sensor_state() {
+    for (int mux_idx = 0; mux_idx < MAX_MUX_CHANNELS; mux_idx++) {
+        MuxConfig* mux = &mux_configs[mux_idx];
+        adc_select_input(mux->adc_channel);
 
-//Run this FOO once User selects "Learn Chords."
-// void run_chord_learning_mode(void) {
-//     if (current_target_chord != NULL) {
-//         //Debug
-//         printf("Current TargetChord: %d == SensorState: %d",current_target_chord,sensor_state);
+        for (int ch = 0; ch < MAX_CHANNELS; ch++) {
+            select_mux_channel(mux, ch);
+            uint16_t value = get_adc_value(mux);
+            sensor_state[mux_idx][ch] = value > PRESSED_THRESHOLD;
+            busy_wait_us_32(200);  // Optional: debounce delay
+        }
+    }
+}
+int led_indexes[3] = {0, 0, 0}; // Array to store the LED indexes for each MUX
 
-//         if (is_chord_pressed_correctly(current_target_chord, sensor_state)) {
-//             printf("✅ Correct chord %s played!\n", current_target_chord->name);
-
-//             // Advance to next chord
-//             if (current_target_chord != NULL) {
-//                 printf("🎯 Next target chord: %s\n", current_target_chord->name);
-//             } else {
-//                 printf("🎉 All chords completed! Returning to menu...\n");
-//             }
-//             current_target_chord = NULL
-
-//         }
-//     } else {
-//         // Start chord learning sequence if not initialized
-//         if (current_target_chord != NULL) {
-//             printf("🔰 Starting with chord: %s\n", current_target_chord->name);
-//         }
-//     }
-// }
 void run_chord_learning_mode(void) {
     printf("🔰 Learning chord: %s\n", current_target_chord->name);
+   
+    for(int i = 0; i < 3; i++){
+        printf("Mux %d, Channel %d\n", current_target_chord->mux_channels->mux_id, current_target_chord->mux_channels->channels[i]);
+        led_indexes[i] = get_led_index((current_target_chord->mux_channels->mux_id),(current_target_chord->mux_channels->channels[i]),-1); // Reset all LED indexes to 0
+        if(current_target_chord->num_mux_groups == 2){
+            led_indexes[2] = -1;
+            break;
+        }
+    }
 
+    printf("LED indexes: %d, %d, %d\n", led_indexes[0], led_indexes[1], led_indexes[2]);
+
+    for(int i = 0; i < 3; i++){
+        led_sequence.first = led_indexes[i];
+    }
+    set_leds_in_sequence(led_sequence, pio, sm); // Set the LEDs in the sequence
     bool chord_detected = false;
     uint64_t last_release_time = 0;
     const uint64_t RELEASE_HOLD_MS = 600; // How long to wait for release
@@ -648,19 +660,7 @@ void run_chord_learning_mode(void) {
 }
 
 
-void update_sensor_state() {
-    for (int mux_idx = 0; mux_idx < MAX_MUX_CHANNELS; mux_idx++) {
-        MuxConfig* mux = &mux_configs[mux_idx];
-        adc_select_input(mux->adc_channel);
 
-        for (int ch = 0; ch < MAX_CHANNELS; ch++) {
-            select_mux_channel(mux, ch);
-            uint16_t value = get_adc_value(mux);
-            sensor_state[mux_idx][ch] = value > PRESSED_THRESHOLD;
-            busy_wait_us_32(200);  // Optional: debounce delay
-        }
-    }
-}
 //OG Sensor FOO(){
 //// while (true) {  // Infinite loop for continuous background processing
     //     for (int i = 0; i < 3; i++) {  // Iterate over all three multiplexers
@@ -758,7 +758,7 @@ void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_a
     printf("Received: %s (state=%d)\n", buffer, chord_learn_state);
 
     if (chord_learn_state == WAITING_FOR_CHORD_COMMAND) {
-        if (strcmp(buffer, "Chord") == 0) {
+        if (strcmp(buffer, "Chords") == 0) {
             chord_learn_state = WAITING_FOR_CHORD_NAME;
             printf("🎸 Ready to receive chord name...\n");
         }
@@ -1057,10 +1057,7 @@ int get_index(int strip, int led){
 #pragma endregion
 
  //***************************************Other Stuff***************************************//
-// todo get free sm
-PIO pio;       // Global handle for the PIO (Programmable I/O) hardware block
-uint sm;       // State machine ID for PIO
-uint offset;   // Offset into the PIO program (not used in this snippet)
+
 
 // Multi-threaded function to be run on Core 1 of the Raspberry Pi Pico
 void core1_entry() {
@@ -1072,7 +1069,7 @@ void core1_entry() {
         } else {
             // If not in learning mode, run other modes as needed:
             // Demo();
-            Test();
+            // Test();
         }
         sleep_ms(10); // Prevent tight loop
     }
