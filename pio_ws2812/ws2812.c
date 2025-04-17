@@ -27,6 +27,14 @@
  #define PASSWORD  "test12345"
  #define UDP_PORT 1666
  #define PC_IP "" //define on testing
+ volatile bool start_chord_learning = false;
+ typedef enum {
+    WAITING_FOR_CHORD_COMMAND,
+    WAITING_FOR_CHORD_NAME,
+    LEARNING_CHORD
+} ChordLearnState;
+
+volatile ChordLearnState chord_learn_state = WAITING_FOR_CHORD_COMMAND;
  #pragma endregion
  
 #pragma region Bools
@@ -573,29 +581,44 @@ Chord* current_target_chord = NULL;
 
 
 //Run this FOO once User selects "Learn Chords."
-void run_chord_learning_mode(void) {
-    if (current_target_chord != NULL) {
-        //Debug
-        printf("Current TargetChord: %d == SensorState: %d",current_target_chord,sensor_state);
+// void run_chord_learning_mode(void) {
+//     if (current_target_chord != NULL) {
+//         //Debug
+//         printf("Current TargetChord: %d == SensorState: %d",current_target_chord,sensor_state);
 
+//         if (is_chord_pressed_correctly(current_target_chord, sensor_state)) {
+//             printf("✅ Correct chord %s played!\n", current_target_chord->name);
+
+//             // Advance to next chord
+//             if (current_target_chord != NULL) {
+//                 printf("🎯 Next target chord: %s\n", current_target_chord->name);
+//             } else {
+//                 printf("🎉 All chords completed! Returning to menu...\n");
+//             }
+//             current_target_chord = NULL
+
+//         }
+//     } else {
+//         // Start chord learning sequence if not initialized
+//         if (current_target_chord != NULL) {
+//             printf("🔰 Starting with chord: %s\n", current_target_chord->name);
+//         }
+//     }
+// }
+void run_chord_learning_mode(void) {
+    printf("🔰 Learning chord: %s\n", current_target_chord->name);
+
+    while (1) {
+        update_sensor_state(); // Make sure sensor_state is updated
         if (is_chord_pressed_correctly(current_target_chord, sensor_state)) {
             printf("✅ Correct chord %s played!\n", current_target_chord->name);
-
-            // Advance to next chord
-
-            if (current_target_chord != NULL) {
-                printf("🎯 Next target chord: %s\n", current_target_chord->name);
-            } else {
-                printf("🎉 All chords completed! Returning to menu...\n");
-            }
+            break; // Exit after correct play
         }
-    } else {
-        // Start chord learning sequence if not initialized
-        if (current_target_chord != NULL) {
-            printf("🔰 Starting with chord: %s\n", current_target_chord->name);
-        }
+        sleep_ms(50); // Polling interval
     }
+    printf("🎉 Chord learning for %s complete!\n", current_target_chord->name);
 }
+
 void update_sensor_state() {
     for (int mux_idx = 0; mux_idx < MAX_MUX_CHANNELS; mux_idx++) {
         MuxConfig* mux = &mux_configs[mux_idx];
@@ -661,37 +684,70 @@ void update_sensor_state() {
 //     pbuf_free(p);
 // }
 
-void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr, u16_t port){
-    printf("Receive Callback Reached.\n");
+// void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr, u16_t port){
+//     printf("Receive Callback Reached.\n");
 
+//     char *pData = (char *)p->payload;
+//     char buffer[32] = {0};
+//     strncpy(buffer, pData, sizeof(buffer) - 1);
+
+//     // Clean up buffer
+//     char *pos = strchr(buffer, '.');
+//     if (pos != NULL) *(pos) = '\0';
+
+//     printf("Received Chord Request: %s\n", buffer);
+
+//     // Match incoming chord string to a Chord struct
+//     current_target_chord = NULL;
+//     for (int i = 0; i < chord_library_size; ++i) {
+//         if (strcmp(buffer, chord_library[i]->name) == 0) {
+//             printf("Chord matched: %s\n", current_target_chord->name);
+//             chord_match = true;  // Set the chord match flag
+//             if(chord_match){
+//                 if(!played){
+//                     current_target_chord = chord_library[i];
+//                     printf("🎯 Target chord: %s\n", current_target_chord->name);
+//                 }
+//             }
+//             break;
+//         }
+//     }
+//     if (current_target_chord == NULL) {
+//         printf("No matching chord found.\n");
+//         chord_match = false;  // Reset the chord match flag
+//     }
+//     pbuf_free(p);
+// }
+void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr, u16_t port){
     char *pData = (char *)p->payload;
     char buffer[32] = {0};
     strncpy(buffer, pData, sizeof(buffer) - 1);
 
-    // Clean up buffer
     char *pos = strchr(buffer, '.');
     if (pos != NULL) *(pos) = '\0';
 
-    printf("Received Chord Request: %s\n", buffer);
+    printf("Received: %s (state=%d)\n", buffer, chord_learn_state);
 
-    // Match incoming chord string to a Chord struct
-    current_target_chord = NULL;
-    for (int i = 0; i < chord_library_size; ++i) {
-        if (strcmp(buffer, chord_library[i]->name) == 0) {
-            printf("Chord matched: %s\n", current_target_chord->name);
-            chord_match = true;  // Set the chord match flag
-            if(chord_match){
-                if(!played){
-                    current_target_chord = chord_library[i];
-                    printf("🎯 Target chord: %s\n", current_target_chord->name);
-                }
-            }
-            break;
+    if (chord_learn_state == WAITING_FOR_CHORD_COMMAND) {
+        if (strcmp(buffer, "Chord") == 0) {
+            chord_learn_state = WAITING_FOR_CHORD_NAME;
+            printf("🎸 Ready to receive chord name...\n");
         }
-    }
-    if (current_target_chord == NULL) {
-        printf("No matching chord found.\n");
-        chord_match = false;  // Reset the chord match flag
+    } else if (chord_learn_state == WAITING_FOR_CHORD_NAME) {
+        // Find the chord by name
+        current_target_chord = NULL;
+        for (int i = 0; i < chord_library_size; ++i) {
+            if (strcmp(buffer, chord_library[i]->name) == 0) {
+                current_target_chord = chord_library[i];
+                printf("Chord matched: %s\n", current_target_chord->name);
+                chord_learn_state = LEARNING_CHORD;
+                break;
+            }
+        }
+        if (current_target_chord == NULL) {
+            printf("No matching chord found for '%s'.\n", buffer);
+            chord_learn_state = WAITING_FOR_CHORD_COMMAND; // Reset to wait for next "Chord."
+        }
     }
     pbuf_free(p);
 }
@@ -979,8 +1035,18 @@ uint offset;   // Offset into the PIO program (not used in this snippet)
 
 // Multi-threaded function to be run on Core 1 of the Raspberry Pi Pico
 void core1_entry() {
-    // Demo();
-    Test();
+    while (1) {
+        if (chord_learn_state == LEARNING_CHORD && current_target_chord != NULL) {
+            run_chord_learning_mode();
+            chord_learn_state = WAITING_FOR_CHORD_COMMAND; // Reset for next round
+            current_target_chord = NULL; // Clear after learning
+        } else {
+            // If not in learning mode, run other modes as needed:
+            // Demo();
+            Test();
+        }
+        sleep_ms(10); // Prevent tight loop
+    }
 }
 int main() {
     stdio_init_all();  // Initialize all standard IO, including USB serial if connected
