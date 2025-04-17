@@ -25,6 +25,7 @@ namespace db_connection
                             "Encrypt=False";
             
             Connect(connectiongString);
+            Console.ReadKey();
         }
         static void Connect(string connString)
         {

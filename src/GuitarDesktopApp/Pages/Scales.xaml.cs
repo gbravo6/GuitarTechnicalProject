@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,20 @@ namespace GuitarDesktopApp.Pages
 
         private void em_pentatonic_click(object sender, RoutedEventArgs e)
         {
-            mainWin.udpClient.SendAsync(Encoding.UTF8.GetBytes("Sc-Em"));
+            UDPSend("Sc-Em.");
+        }
+
+        private void UDPSend(string s)
+        {
+            try
+            {
+                mainWin.udpClient.Send(Encoding.UTF8.GetBytes(s));
+                Trace.WriteLine($"Send Success: {s}");
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine($"Send failed : {ex.Message}");
+            }
         }
     }
 }

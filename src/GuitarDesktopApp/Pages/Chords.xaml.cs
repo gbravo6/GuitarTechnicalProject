@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -40,57 +41,56 @@ namespace GuitarDesktopApp
             NavigationService.Navigate(new HowToReadChord());
         }
 
-        //public async void SendJSON(string chord)
-        //{
-        //    //prep and send through socket 
-        //    var jsonSend = new
-        //    {
-        //        chord = chord
-        //    };
-
-        //    byte[] sendBuffer = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(jsonSend));
-        //    await mainWin._Client.SendAsync(new ArraySegment<byte>(sendBuffer), SocketFlags.None);
-        //}
-
-
         private void A_btn_Click(object sender, RoutedEventArgs e)
         {
-            //SendJSON("A");
-            mainWin.udpClient.Send(Encoding.UTF8.GetBytes("Ch-A"));
+            UDPSend("Ch-A.");
         }
         private void Am_btn_Clicked(object sender, RoutedEventArgs e)
         {
-            mainWin.udpClient.Send(Encoding.UTF8.GetBytes("Ch-Am"));
+            UDPSend("Ch-Am.");
         }
 
         private void C_btn_Click(object sender, RoutedEventArgs e)
         {
-            mainWin.udpClient.Send(Encoding.UTF8.GetBytes("Ch-C"));
+            UDPSend("Ch-C.");
         }
 
         private void D_btn_Click(object sender, RoutedEventArgs e)
         {
-            mainWin.udpClient.Send(Encoding.UTF8.GetBytes("Ch-D"));
+            UDPSend("Ch-D.");
         }
 
         private void Dm_btn_Click(object sender, RoutedEventArgs e)
         {
-            mainWin.udpClient.Send(Encoding.UTF8.GetBytes("Ch-Dm"));
+            UDPSend("Ch-Dm.");
         }
 
         private void e_btn_Click(object sender, RoutedEventArgs e)
         {
-            mainWin.udpClient.Send(Encoding.UTF8.GetBytes("Ch-E"));
+            UDPSend("Ch-E.");
         }
 
         private void em_btn_click(object sender, RoutedEventArgs e)
         {
-            mainWin.udpClient.Send(Encoding.UTF8.GetBytes("Ch-Em"));
+            UDPSend("Ch-Em.");
         }
 
         private void g_btn_click(object sender, RoutedEventArgs e)
         {
-            mainWin.udpClient.Send(Encoding.UTF8.GetBytes("Ch-G"));
+            UDPSend("Ch-G.");
+        }
+
+        private void UDPSend(string s)
+        {
+            try
+            {
+                mainWin.udpClient.Send(Encoding.UTF8.GetBytes(s));
+                Trace.WriteLine($"Send Success: {s}");
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine($"Send failed : {ex.Message}");
+            }
         }
     }
 }

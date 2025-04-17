@@ -11,8 +11,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using GuitarDesktopApp.Pages;
-using GDA_Server_Form;
 using System.Net;
+using Microsoft.Data.SqlClient;
 
 namespace GuitarDesktopApp
 {
@@ -22,36 +22,54 @@ namespace GuitarDesktopApp
     public partial class MainWindow : Window
     {
         //fields and members 
-        Socket client = null;
-        public Socket _Client { get { return client; } set { client = value; } }
 
         Page1 main;
         public Page1 _main { get { return main; } set { main = value; } }
-        Chords chords;
-        public Chords _chords { get { return chords; } set { chords = value; } }
-        Scales scales;
 
-        ServerForm server;
-
-        public Socket listener = null;
-        public Socket Listener { get; set; }
-  
-        public Socket pClient { get; set; }
         public UdpClient udpClient { get; set; }
+
+        SqlConnection sqlConnection;
+        //connection string for connecting to azure database
+        string connectionString = "Server=guitargod.database.windows.net;" +
+                "Database=GuitarGodUsersDB;" +
+                "User Id=Charlie;" +
+                "Password=cmpe200549555!;" +
+                "Encrypt=False";
+
         public MainWindow()
         {
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
-
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             //pages
             _main = new Page1(this);
-            _chords = new Chords(this);
-            mainFrame.Content = main;
+            Connect(connectionString);
+            mainFrame.Content = new Login(this, sqlConnection);
         }
-       
+        void Connect(string connString)
+        {
+
+            sqlConnection = new SqlConnection(connString);
+
+            Console.WriteLine("Connecting to server");
+            try
+            {
+                sqlConnection.Open();
+                Console.WriteLine("Connection is open");
+                return;
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Failed to connect");
+                return;
+            }
+
+
+        }
+
     }
 }

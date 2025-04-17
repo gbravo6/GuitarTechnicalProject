@@ -15,7 +15,7 @@
         <Button Name="em_pentatonic" Width="700" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0" Click="em_pentatonic_click">
             <Image Source="/Scale Images/em_pentatonic.png" Stretch="Fill"/>
         </Button>
-        <Label x:Name="Em_penta_label" Content="Em Pentatonic Scale" Margin="45,75,0,0"/>
+        <Label x:Name="Em_penta_label" Content="Em Pentatonic Scale" Margin="45,75,636,350"/>
 
 
     </Grid>
