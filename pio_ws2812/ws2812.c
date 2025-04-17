@@ -210,7 +210,7 @@ uint offset;   // Offset into the PIO program (not used in this snippet)
         for (int i = 0; i < NUM_PIXELS; i++) {
             led_buffer[i] = 0;  // Clear the buffer
         }
-
+        printf("Setting LEDs in sequence: %d, %d, %d\n", s.first, s.second, s.third);
         // Bright blue for the most recent index
         led_buffer[s.first] = set_colour(GREEN,0.75);
 
@@ -608,25 +608,40 @@ void update_sensor_state() {
         }
     }
 }
-int led_indexes[3] = {0, 0, 0}; // Array to store the LED indexes for each MUX
-
+int led_indexes[3] = {-1, -1, -1}; // Array to store the LED indexes for each MUX
+int counter = 0;
 void run_chord_learning_mode(void) {
     printf("🔰 Learning chord: %s\n", current_target_chord->name);
    
-    for(int i = 0; i < 3; i++){
-        printf("Mux %d, Channel %d\n", current_target_chord->mux_channels->mux_id, current_target_chord->mux_channels->channels[i]);
-        led_indexes[i] = get_led_index((current_target_chord->mux_channels->mux_id),(current_target_chord->mux_channels->channels[i]),-1); // Reset all LED indexes to 0
-        if(current_target_chord->num_mux_groups == 2){
-            led_indexes[2] = -1;
+    for(int j = 0; j < current_target_chord->num_mux_groups; j++){
+        MuxChannelGroup group = current_target_chord->mux_channels[j];
+        for (int i = 0; i < 3; i++) {
+            printf("Mux %d, Channel %d\n", group.mux_id, group.channels[i]);
+            led_indexes[i] = get_led_index(group.mux_id, group.channels[i], -1); 
+            counter++;
+            if(counter == 3 || led_indexes[2] != -1){
+                break;
+            }
+        }
+        if(counter == 3 || led_indexes[2] != -1){
             break;
         }
     }
+    // for(int i = 0; i < 3; i++){
+    //     printf("Mux %d, Channel %d\n", current_target_chord->mux_channels->mux_id, current_target_chord->mux_channels->channels[i]);
 
+    //     led_indexes[i] = get_led_index((current_target_chord->mux_channels->mux_id),(current_target_chord->mux_channels->channels[i]),-1); // Reset all LED indexes to 0
+    //     if(current_target_chord->num_mux_groups < 3){
+    //         led_indexes[2] = -1;
+    //         break;
+    //     }
+    // }
     printf("LED indexes: %d, %d, %d\n", led_indexes[0], led_indexes[1], led_indexes[2]);
 
-    for(int i = 0; i < 3; i++){
-        led_sequence.first = led_indexes[i];
-    }
+    led_sequence.first = led_indexes[0];
+    led_sequence.second = led_indexes[1];
+    led_sequence.third = led_indexes[2];
+
     set_leds_in_sequence(led_sequence, pio, sm); // Set the LEDs in the sequence
     bool chord_detected = false;
     uint64_t last_release_time = 0;
