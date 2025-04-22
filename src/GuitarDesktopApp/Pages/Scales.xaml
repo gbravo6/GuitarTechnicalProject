@@ -11,7 +11,6 @@
     <Grid Background="Beige">
         <Label Name="UI_Scales_Lbl" Content="Scales" HorizontalAlignment="Center" FontSize="48" VerticalAlignment="Top" FontWeight="Bold" />
         <Button Name="UI_Home_Btn" Content="HOME" Width="50" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,15,0,0" Click="UI_Home_Btn_Click" />
-        <Button Name="UI_HowTo_Btn" Content="How to Read Guitar Tabs" Width="200" Height="50"  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,15,0" />
         <Button Name="em_pentatonic" Width="700" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,100,0,0" Click="em_pentatonic_click">
             <Image Source="/Scale Images/em_pentatonic.png" Stretch="Fill"/>
         </Button>
