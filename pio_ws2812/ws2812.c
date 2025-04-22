@@ -763,36 +763,51 @@ void run_chord_learning_mode(void) {
 //     pbuf_free(p);
 // }
 void receive_callback(void *arg, struct udp_pcb *pcb, struct pbuf *p, const ip_addr_t *addr, u16_t port){
+    // Cast UDP payload to char pointer for processing
     char *pData = (char *)p->payload;
+    // Create buffer to store received string, initialize with zeros
     char buffer[32] = {0};
+    // Copy payload data into buffer safely, leaving room for null terminator
     strncpy(buffer, pData, sizeof(buffer) - 1);
 
+    // Search for '.' character in buffer to truncate string at that point
     char *pos = strchr(buffer, '.');
-    if (pos != NULL) *(pos) = '\0';
+    if (pos != NULL) *(pos) = '\0'; // Replace '.' with null terminator if found
 
+    // Print received message and current chord learning state
     printf("Received: %s (state=%d)\n", buffer, chord_learn_state);
 
+    // Check if waiting for the initial chord command
     if (chord_learn_state == WAITING_FOR_CHORD_COMMAND) {
+        // If received string matches "Chords", update state to wait for chord name
         if (strcmp(buffer, "Chords") == 0) {
             chord_learn_state = WAITING_FOR_CHORD_NAME;
             printf("🎸 Ready to receive chord name...\n");
         }
-    } else if (chord_learn_state == WAITING_FOR_CHORD_NAME) {
-        // Find the chord by name
+    }
+    // Check if waiting for the chord name after receiving "Chords" 
+    else if (chord_learn_state == WAITING_FOR_CHORD_NAME) {
+        // Reset current target chord pointer before search
         current_target_chord = NULL;
+        // Loop through chord library to find a chord matching received name
         for (int i = 0; i < chord_library_size; ++i) {
             if (strcmp(buffer, chord_library[i]->name) == 0) {
+                // Chord matched, set as current target chord
                 current_target_chord = chord_library[i];
                 printf("Chord matched: %s\n", current_target_chord->name);
+                // Update state to indicate chord learning in progress
                 chord_learn_state = LEARNING_CHORD;
-                break;
+                break;  // Exit loop after finding match
             }
         }
+        // If no matching chord was found in the library
         if (current_target_chord == NULL) {
             printf("No matching chord found for '%s'.\n", buffer);
-            chord_learn_state = WAITING_FOR_CHORD_COMMAND; // Reset to wait for next "Chord."
+             // Reset state to wait for chord command again
+            chord_learn_state = WAITING_FOR_CHORD_COMMAND;
         }
     }
+    // Free the pbuf to release memory allocated for UDP packet
     pbuf_free(p);
 }
 void udp_begin_receiving()
@@ -811,12 +826,11 @@ int wifi_init(){
         printf("Wi-Fi init failed\n");
         return -1;
     }
-
     // Enable wifi station
     cyw43_arch_enable_sta_mode();
 
-    //  Connect to Wifi
     printf("Connecting to Wi-Fi...\n");
+    //  Connect to Wifi
     if (cyw43_arch_wifi_connect_timeout_ms(WIFI_NAME, PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
         printf("failed to connect.\n");
         return 1;
@@ -898,172 +912,117 @@ bool is_note_pressed(int mux, int channel) {
     return value > PRESSED_THRESHOLD;  // You should define PRESS_THRESHOLD appropriately
 }
 
-void Demo() {
+void Strum() {
     printf("Starting Demo mode...\n");
-
+    
+    // Initialize index for current note
     int current_index = 0;
+    // Initialize timestamp for last ADC zero reading (used for debounce)
     uint64_t last_adc_zero_time = 0;
 
+    // Loop through all demo notes
     while (current_index < NUM_DEMO_NOTES) {
+         // Get current note instruction
         NoteInstruction current_note = demo_notes[current_index];
+        // Get next note instruction or invalid placeholder if none
         NoteInstruction next_note = (current_index + 1 < NUM_DEMO_NOTES) ? demo_notes[current_index + 1] : (NoteInstruction){-1, -1, ""};
 
-        indicate_note_colors(current_index, current_index + 1);  // ✅ Show current only when ready
+        // Indicate colors for current and next notes on display
+        indicate_note_colors(current_index, current_index + 1); 
 
+        // Flag to track if correct note was detected
         bool note_detected = false;
 
+        // Loop until correct note press is detected
         while (!note_detected) {
+            // Iterate over each multiplexer (3 total)
             for (int m = 0; m < 3; m++) {
+                // Get pointer to current multiplexer config
                 MuxConfig* current_mux = &mux_configs[m];
+                // Select ADC input channel for current multiplexer
                 adc_select_input(current_mux->adc_channel);
 
+                // Iterate over all channels in current multiplexer
                 for (int ch = 0; ch < MAX_CHANNELS; ch++) {
+                    // Select specific channel on multiplexer
                     select_mux_channel(current_mux, ch);
-                    sleep_ms(5);  // Debounce
+                    // Wait 5 milliseconds for debounce
+                    sleep_ms(5);
 
+                    // Check if a button press was detected
                     if (active_mux != -1) {
-                        printf("Detected press: MUX %d, CH %d\n", active_mux + 1, ch);
+                        // Update sensor buffer for this channel
                         update_sensor_buffer(ch);
 
+                        // Check if detected press matches current note (mux and channel)
                         if ((active_mux + 1) == current_note.mux && ch == current_note.channel) {
+                            // Correct note was pressed
                             printf("✅ Correct note %s pressed\n", current_note.note);
-                            //Debugging:
-                            printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux);
-                            printf("Channel: %d == current channel: %d\n",ch,current_note.channel);
+                            // Get LED index corresponding to current note
                             int led_idx = get_led_index(current_note.mux, current_note.channel, -1);
-                            printf("LED index: %d", led_idx);
+                            // Set LED color to blue to indicate success
                             led_buffer[led_idx] = set_colour(BLUE, 1.0);
+                            // Update all LEDs with new color data
                             for (int l = 0; l < NUM_PIXELS; l++) {
                                 pio_sm_put_blocking(pio, sm, led_buffer[l]);
                             }
+                            // Wait 200 milliseconds to show feedback
                             sleep_ms(200);
+                            // Clear all LEDs
                             clear_leds(pio, sm);
+                            // Mark note as detected to exit loop
                             note_detected = true;
 
                         } else {
+                            // Incorrect button press detected
                             printf("❌ Incorrect press at MUX %d, CH %d\n", active_mux + 1, ch);
-                            //Debugging
-                            printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux);
-                            printf("Channel: %d == current Mux: %d\n",ch,current_note.channel);
+                            // Get LED index for incorrect press
                             int led_idx = get_led_index(active_mux + 1, ch, -1);
-                            //Debugging
-                            printf("LED index: %d", led_idx);
+                            // Set LED color to red to indicate error
                             led_buffer[led_idx] = set_colour(RED, 1.0);
+                            // Update all LEDs to show error color
                             for (int l = 0; l < NUM_PIXELS; l++) {
                                 pio_sm_put_blocking(pio, sm, led_buffer[l]);
                             }
+                            // Wait 200 milliseconds to show error feedback
                             sleep_ms(200);
+                            // Restore proper note colors after error indication
                             indicate_note_colors(current_index, current_index + 1);  // Restore proper current display
                         }
-
-                        active_mux = -1;  // Clear press flag
+                        // Reset press detection flag
+                        active_mux = -1;
                     }
                 }
-
-                // Wait for release
+                // Wait for button release (no active press)
                 if (active_mux == -1) {
+                    // If debounce timer not started, start it now
                     if (last_adc_zero_time == 0) {
                         last_adc_zero_time = to_ms_since_boot(get_absolute_time());
-                    } else if (to_ms_since_boot(get_absolute_time()) - last_adc_zero_time >= 600 && note_detected) {
+                    }
+                    // If 600ms passed since last zero reading and note was detected 
+                    else if (to_ms_since_boot(get_absolute_time()) - last_adc_zero_time >= 600 && note_detected) {
+                        // Process sensor buffer data after confirmed press
                         process_sensor_buffer();
+                        // Reset debounce timer
                         last_adc_zero_time = 0;
+                        // Move to next note in Function
                         current_index++;  // ✅ Only increment when correct press was confirmed
-                        break;  // Exit MUX/channel loop
+                        // Exit mux/channel loops to proceed to next note
+                        break;
                     }
                 } else {
-                    last_adc_zero_time = 0;  // Still active, reset
+                    // Button still pressed, reset debounce timer
+                    last_adc_zero_time = 0;
                 }
             }
-
-            sleep_ms(5);  // Global debounce
+            // Global debounce delay before next input check
+            sleep_ms(5);
         }
     }
-
-    printf("🎵 Demo complete!\n");
+    // Print message indicating demo sequence is complete
+    printf("🎵 Strum complete!\n");
 }
 
-void Test(){
-    printf("Starting Test mode...\n");
-
-    int current_index = 0;
-    uint64_t last_adc_zero_time = 0;
-
-    while (current_index < NUM_DEMO_NOTES) {
-        NoteInstruction current_note = demo_notes[current_index];
-        NoteInstruction next_note = (current_index + 1 < NUM_DEMO_NOTES) ? demo_notes[current_index + 1] : (NoteInstruction){-1, -1, ""};
-
-        indicate_note_colors(current_index, current_index + 1);  // ✅ Show current only when ready
-
-        bool note_detected = false;
-
-        while (!note_detected) {
-            for (int m = 0; m < 3; m++) {
-                MuxConfig* current_mux = &mux_configs[m];
-                adc_select_input(current_mux->adc_channel);
-
-                for (int ch = 0; ch < MAX_CHANNELS; ch++) {
-                    select_mux_channel(current_mux, ch);
-                    sleep_ms(5);  // Debounce
-
-                    if (active_mux != -1) {
-                        printf("Detected press: MUX %d, CH %d\n", active_mux + 1, ch);
-                        update_sensor_buffer(ch);
-
-                        if ((active_mux + 1) == current_note.mux && ch == current_note.channel) {
-                            printf("✅ Correct note %s pressed\n", current_note.note);
-                            //Debugging:
-                            printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux);
-                            printf("Channel: %d == current channel: %d\n",ch,current_note.channel);
-                            int led_idx = get_led_index(current_note.mux, current_note.channel, -1);
-                            printf("LED index: %d", led_idx);
-                            led_buffer[led_idx] = set_colour(BLUE, 1.0);
-                            for (int l = 0; l < NUM_PIXELS; l++) {
-                                pio_sm_put_blocking(pio, sm, led_buffer[l]);
-                            }
-                            sleep_ms(200);
-                            clear_leds(pio, sm);
-                            note_detected = true;
-
-                        } else {
-                            printf("❌ Incorrect press at MUX %d, CH %d\n", active_mux + 1, ch);
-                            //Debugging
-                            printf("Active_mux: %d == Current mux: %d\n",active_mux+1,current_note.mux);
-                            printf("Channel: %d == current Mux: %d\n",ch,current_note.channel);
-                            int led_idx = get_led_index(active_mux + 1, ch, -1);
-                            //Debugging
-                            printf("LED index: %d", led_idx);
-                            led_buffer[led_idx] = set_colour(RED, 1.0);
-                            for (int l = 0; l < NUM_PIXELS; l++) {
-                                pio_sm_put_blocking(pio, sm, led_buffer[l]);
-                            }
-                            sleep_ms(200);
-                            indicate_note_colors(current_index, current_index + 1);  // Restore proper current display
-                        }
-
-                        active_mux = -1;  // Clear press flag
-                    }
-                }
-
-                // Wait for release
-                if (active_mux == -1) {
-                    if (last_adc_zero_time == 0) {
-                        last_adc_zero_time = to_ms_since_boot(get_absolute_time());
-                    } else if (to_ms_since_boot(get_absolute_time()) - last_adc_zero_time >= 600 && note_detected) {
-                        process_sensor_buffer();
-                        last_adc_zero_time = 0;
-                        current_index++;  // ✅ Only increment when correct press was confirmed
-                        break;  // Exit MUX/channel loop
-                    }
-                } else {
-                    last_adc_zero_time = 0;  // Still active, reset
-                }
-            }
-
-            sleep_ms(5);  // Global debounce
-        }
-    }
-    printf("🎵 Demo complete!\n");
-}
 #pragma clientregion
 //***************************************Client Stuff***************************************//
 int get_index(int strip, int led){
@@ -1083,8 +1042,7 @@ void core1_entry() {
             current_target_chord = NULL; // Clear after learning
         } else {
             // If not in learning mode, run other modes as needed:
-            // Demo();
-            // Test();
+            // Strum();
         }
         sleep_ms(10); // Prevent tight loop
     }
@@ -1121,11 +1079,6 @@ int main() {
         uint32_t colour = 0x00FF00;     // Green
         uint32_t error = 0xFF0000;      // Red
         uint32_t colouroff = 0x000000;  // LED off
-
-        // Select a random LED to be targeted initially
-        // led_index = rand() % ((NUM_PIXELS - 1) - 0 + 1) + 0;  // Random index from 0 to NUM_PIXELS-1
-        // printf("LED INDEX: %d\n", led_index);
-
     #pragma endregion
     //***************************************ADC Init***************************************//
     #pragma region ADC INIT
@@ -1137,10 +1090,6 @@ int main() {
     #pragma endregion
 
     //***************************************Integration***************************************//
-    // printf("starting\n");
-    // led_index = get_index(rand() % 3 + 1, rand() % 6 + 1);  // Randomly select a LED index for the sequence for testing purposes, ideally we want to use get_index on json data
-
-    // Wait until USB serial is connected (optional, useful for debugging)
     while(true){
         
     }
